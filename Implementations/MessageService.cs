@@ -5,7 +5,7 @@ using ServicesLibrary.Models;
 
 namespace ServicesLibrary.Implementations
 {
-    public class MessageServices : IMessageServices<Messages>
+    public class MessageService : IMessageService<Message>
     {
         /// <summary>
         /// Url of the api
@@ -22,7 +22,7 @@ namespace ServicesLibrary.Implementations
         /// </summary>
         /// <param name="id">Integer, message id</param>
         /// <returns>Messages object</returns>
-        public Messages GetMessageById(int id)
+        public Message GetMessageById(int id)
         {
             throw new System.NotImplementedException();
         }
@@ -32,7 +32,7 @@ namespace ServicesLibrary.Implementations
         /// </summary>
         /// <param name="chatId">Integer, chat id</param>
         /// <returns>Enumerable messages</returns>
-        public IEnumerable<Messages> GetChatMessagesById(int chatId)
+        public IEnumerable<Message> GetChatMessagesById(int chatId)
         {
             throw new System.NotImplementedException();
         }
@@ -42,7 +42,7 @@ namespace ServicesLibrary.Implementations
         /// </summary>
         /// <param name="groupId">Integer, group id</param>
         /// <returns>Enumerable messages</returns>
-        public IEnumerable<Messages> GetGroupMessagesById(int groupId)
+        public IEnumerable<Message> GetGroupMessagesById(int groupId)
         {
             throw new System.NotImplementedException();
         }
@@ -52,7 +52,7 @@ namespace ServicesLibrary.Implementations
         /// </summary>
         /// <param name="message">Message instance</param>
         /// <returns>Message object</returns>
-        public Messages SendMessage(Messages message)
+        public Message SendMessage(Message message)
         {
             throw new System.NotImplementedException();
         }
@@ -61,7 +61,7 @@ namespace ServicesLibrary.Implementations
         /// PUT: Edit entire message (totally)
         /// </summary>
         /// <param name="message">Message to be edited</param>
-        public void EditMessage(Messages message)
+        public void EditMessage(Message message)
         {
             throw new System.NotImplementedException();
         }
@@ -70,7 +70,7 @@ namespace ServicesLibrary.Implementations
         /// PATCH: Partial edit message (text only)
         /// </summary>
         /// <param name="message">Message to be edited</param>
-        public void PartialEditMessage(Messages message)
+        public void PartialEditMessage(Message message)
         {
             throw new System.NotImplementedException();
         }
@@ -79,7 +79,7 @@ namespace ServicesLibrary.Implementations
         /// DELETE: deletes message from chat or group
         /// </summary>
         /// <param name="message">Message to be deleted</param>
-        public void DeleteMessage(Messages message)
+        public void DeleteMessage(Message message)
         {
             throw new System.NotImplementedException();
         }

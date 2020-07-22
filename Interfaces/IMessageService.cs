@@ -6,7 +6,7 @@ namespace ServicesLibrary.Interfaces
     /// Interface for PUT, POST, GET etc interaction with messenger API
     /// </summary>
     /// <typeparam name="T">T - type of message, e.g: text, voice, smile, sticker</typeparam>
-    public interface IMessageServices<T> where T : class
+    public interface IMessageService<T> where T : class
     {
         /// <summary>
         /// GET: Returns message with specified id
