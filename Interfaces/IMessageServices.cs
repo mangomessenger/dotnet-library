@@ -13,21 +13,21 @@ namespace ServicesLibrary.Interfaces
         /// </summary>
         /// <param name="id">Integer, id of message to be returnes</param>
         /// <returns>T - message or null if no any</returns>
-        T GetMessage(int id);
+        T GetMessageById(int id);
 
         /// <summary>
         /// GET: Returns all messages from chat by id, chat is for two users only
         /// </summary>
         /// <param name="chatId">Integer, id of chat</param>
         /// <returns>Enum of messages of chat by chat id</returns>
-        IEnumerable<T> GetChatMessages(int chatId);
+        IEnumerable<T> GetChatMessagesById(int chatId);
 
         /// <summary>
         /// GET: Returns all messages from group by id
         /// </summary>
         /// <param name="groupId">Integer - id of group</param>
         /// <returns>Enum of messages of group by group id</returns>
-        IEnumerable<T> GetGroupMessages(int groupId);
+        IEnumerable<T> GetGroupMessagesById(int groupId);
 
         /// <summary>
         /// POST: sends message to chat, group or readonly chat by id

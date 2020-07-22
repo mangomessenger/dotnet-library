@@ -22,7 +22,7 @@ namespace ServicesLibrary.Implementations
         /// </summary>
         /// <param name="id">Integer, message id</param>
         /// <returns>Messages object</returns>
-        public Messages GetMessage(int id)
+        public Messages GetMessageById(int id)
         {
             throw new System.NotImplementedException();
         }
@@ -32,7 +32,7 @@ namespace ServicesLibrary.Implementations
         /// </summary>
         /// <param name="chatId">Integer, chat id</param>
         /// <returns>Enumerable messages</returns>
-        public IEnumerable<Messages> GetChatMessages(int chatId)
+        public IEnumerable<Messages> GetChatMessagesById(int chatId)
         {
             throw new System.NotImplementedException();
         }
@@ -42,7 +42,7 @@ namespace ServicesLibrary.Implementations
         /// </summary>
         /// <param name="groupId">Integer, group id</param>
         /// <returns>Enumerable messages</returns>
-        public IEnumerable<Messages> GetGroupMessages(int groupId)
+        public IEnumerable<Messages> GetGroupMessagesById(int groupId)
         {
             throw new System.NotImplementedException();
         }
