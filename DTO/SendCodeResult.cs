@@ -3,7 +3,7 @@
     /// <summary>
     /// Response type of POST endpoint: auth/sendCode
     /// </summary>
-    public class SendCodeResponse
+    public class SendCodeResult
     {
         public string PhoneNumber { get; set; }
         public string CountryCode { get; set; }
