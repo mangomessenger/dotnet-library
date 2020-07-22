@@ -1,11 +1,11 @@
 ﻿using System;
-using AutoMapper;
 using FluentAssertions;
 using NUnit.Framework;
 using ServicesLibrary.DTO;
 using ServicesLibrary.Exceptions.Auth;
 using ServicesLibrary.Implementations;
 using ServicesLibrary.Interfaces;
+using static ServicesLibrary.Auxiliaries.AuthServiceAuxiliaries;
 
 namespace ServicesLibrary.Tests
 {
@@ -13,9 +13,6 @@ namespace ServicesLibrary.Tests
     public class AuthServiceTests
     {
         private readonly IAuthService _authService = new AuthService();
-
-        private readonly MapperConfiguration _sendCodeToSignUp = new MapperConfiguration(
-            cfg => cfg.CreateMap<SendCodeResult, SignUpPayload>());
 
         [Test]
         public void SendCodeValidTest()
@@ -65,21 +62,21 @@ namespace ServicesLibrary.Tests
             // create auth request
             var sendDto = new SendCodePayload
             {
-                PhoneNumber = "789654127",
+                PhoneNumber = "789654128",
                 CountryCode = "PL",
                 Fingerprint = "1337121111111"
             };
 
             var sendCodeResult = _authService.SendCode(sendDto);
             sendCodeResult.Should().NotBeNull();
-            sendCodeResult.PhoneNumber.Should().Be("+48789654127");
+            sendCodeResult.PhoneNumber.Should().Be("+48789654128");
 
             // map auth request response
-            var mapper = new Mapper(_sendCodeToSignUp);
-            var signUpDto = mapper.Map<SendCodeResult, SignUpPayload>(sendCodeResult);
+            var mapper = CreateMapper();
+            var signUpDto = mapper.Map<SignUpPayload>(sendCodeResult);
 
             // fill missing fields
-            signUpDto.Name = "test_name3";
+            signUpDto.Name = "test_name4";
             signUpDto.PhoneCode = 22222;
             signUpDto.TermsOfServiceAccepted = true;
 
@@ -87,7 +84,7 @@ namespace ServicesLibrary.Tests
             var signUpResult = _authService.SignUp(signUpDto);
 
             // check data
-            signUpResult.User.Name.Should().Be("test_name3");
+            signUpResult.User.Name.Should().Be("test_name4");
             signUpResult.AccessToken.Length.Should().BeGreaterThan(0);
             signUpResult.AccessToken.Should().NotBeNull();
             signUpResult.RefreshToken.Length.Should().BeGreaterThan(0);

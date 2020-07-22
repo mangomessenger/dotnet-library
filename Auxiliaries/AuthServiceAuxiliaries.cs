@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Linq;
+using AutoMapper;
+using ServicesLibrary.MapperProfiles;
 
 namespace ServicesLibrary.Auxiliaries
 {
@@ -39,6 +41,18 @@ namespace ServicesLibrary.Auxiliaries
         public static bool FingerprintIsValid(string print)
         {
             return print.Length > 9;
+        }
+
+        /// <summary>
+        /// Generates mapper with required mapping profiles
+        /// </summary>
+        /// <returns></returns>
+        public static Mapper CreateMapper()
+        {
+            var mapperConfig = new MapperConfiguration(
+                cfg => cfg.AddProfile(new AuthProfiles()));
+            
+            return new Mapper(mapperConfig);
         }
 
         /// <summary>
