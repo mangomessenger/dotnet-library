@@ -13,5 +13,16 @@ namespace ServicesLibrary.DTO
         public string CountryCode { get; set; }
         [JsonProperty("fingerprint")]
         public string Fingerprint { get; set; }
+
+        public SendCodePayload(string phoneNumber, string countryCode, string fingerprint)
+        {
+            PhoneNumber = phoneNumber;
+            CountryCode = countryCode;
+            Fingerprint = fingerprint;
+        }
+
+        public SendCodePayload()
+        {
+        }
     }
 }

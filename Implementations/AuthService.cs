@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using RestSharp;
 using ServicesLibrary.DTO;
+using ServicesLibrary.Exceptions.Auth;
 using ServicesLibrary.Interfaces;
 
 namespace ServicesLibrary.Implementations
@@ -27,6 +28,15 @@ namespace ServicesLibrary.Implementations
         /// <returns>Returns SendCodeResponse - required data for next step of authorization</returns>
         public SendCodeResult SendCode(SendCodePayload code)
         {
+            if (code.PhoneNumber.Length != 9)
+                throw new InvalidPhoneNumberFormatException("Phone must be 9 digits long");
+
+            if (string.IsNullOrEmpty(code.CountryCode))
+                throw new InvalidCountryCodeException("Country code cannot be null or empty");
+
+            if (code.Fingerprint.Length < 10)
+                throw new InvalidFingerprintFormatException("Fingerprint length must be 10 or more digits");
+
             var request = new RestRequest(Url + "sendCode", Method.POST);
             request.AddHeader("Content-type", "application/json");
             request.AddJsonBody(JsonConvert.SerializeObject(code));
