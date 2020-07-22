@@ -1,8 +1,8 @@
-# Serivces library
+# Services library
 
-## Roadmap
+## Road-map
 
-- Create and describe serivices interface
+- Create and describe services interface
 - Create custom exceptions
 - Document interface and implementation
 - Write unit tests
