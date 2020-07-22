@@ -43,7 +43,7 @@ namespace ServicesLibrary.Auxiliaries
         {
             return print.Length > 9;
         }
-        
+
         /// <summary>
         /// Checks whenever terms of services in SignUpPayload accepted
         /// </summary>
@@ -60,11 +60,8 @@ namespace ServicesLibrary.Auxiliaries
         public static Mapper CreateMapper()
         {
             var mapperConfig = new MapperConfiguration(
-                cfg =>
-                {
-                    cfg.AddProfile(new AuthProfiles());
-                });
-            
+                cfg => { cfg.AddProfile(new AuthProfiles()); });
+
             return new Mapper(mapperConfig);
         }
 

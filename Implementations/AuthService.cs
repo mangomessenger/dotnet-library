@@ -71,9 +71,14 @@ namespace ServicesLibrary.Implementations
         /// <returns></returns>
         public SignInResult SignIn(SignInPayload payload)
         {
-            throw new System.NotImplementedException();
+            var request = new RestRequest(Url + "signIn", Method.POST);
+            request.AddHeader("Content-type", "application/json");
+            request.AddJsonBody(JsonConvert.SerializeObject(payload));
+            var content = _restClient.Execute(request).Content;
+            var deserializeContent = JsonConvert.DeserializeObject<SignInResult>(content);
+            return deserializeContent;
         }
-        
+
         /// <summary>
         /// POST: Logs out from messenger
         /// </summary>
@@ -83,7 +88,7 @@ namespace ServicesLibrary.Implementations
         {
             throw new System.NotImplementedException();
         }
-        
+
         /// <summary>
         /// POST: Refreshes tokens
         /// </summary>

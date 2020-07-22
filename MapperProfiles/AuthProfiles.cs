@@ -10,6 +10,7 @@ namespace ServicesLibrary.MapperProfiles
             // source -> target
             CreateMap<SendCodeResult, SignUpPayload>();
             CreateMap<SignUpPayload, SignInPayload>();
+            CreateMap<SendCodeResult, SignInPayload>();
         }
     }
 }

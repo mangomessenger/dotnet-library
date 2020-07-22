@@ -28,7 +28,7 @@ namespace ServicesLibrary.Tests
             var sendCodeResult = _authService.SendCode(sendCodeDto);
             sendCodeResult.Should().NotBeNull();
             sendCodeResult.PhoneNumber.Should().Be("+48" + phone);
-            sendCodeResult.IsNew.Should().BeTrue();
+            sendCodeResult.IsNew.Should().BeFalse(); // test is run not first time
             sendCodeResult.Timeout.Should().Be(120);
             sendCodeResult.CountryCode.Should().Be(countryCode);
             sendCodeResult.PhoneCodeHash.Should().NotBe(null);
@@ -78,7 +78,7 @@ namespace ServicesLibrary.Tests
         [Test]
         public void SignUpValidTest()
         {
-            const string phone = "789654167";
+            const string phone = "789654168";
             const string countryCode = "PL";
             const string fingerPrint = "1337121111111";
             const string name = "test_name4";
@@ -120,6 +120,30 @@ namespace ServicesLibrary.Tests
         [Test]
         public void SignInValidTest()
         {
+            const string phone = "789654154";
+            const string countryCode = "PL";
+            const string fingerPrint = "1337121111111";
+
+            var sendCodeDto = new SendCodePayload(phone, countryCode, fingerPrint);
+
+            var sendCodeResult = _authService.SendCode(sendCodeDto);
+            sendCodeResult.Should().NotBeNull();
+            sendCodeResult.PhoneNumber.Should().Be("+48" + phone);
+            sendCodeResult.IsNew.Should().BeFalse(); // test is run not first time
+            sendCodeResult.Timeout.Should().Be(120);
+            sendCodeResult.CountryCode.Should().Be(countryCode);
+            sendCodeResult.PhoneCodeHash.Should().NotBe(null);
+            sendCodeResult.PhoneCodeHash.Should().NotBe(string.Empty);
+            
+            // sign in try
+            var signInDto = Mapper.Map<SignInPayload>(sendCodeResult);
+            signInDto.PhoneCode = 22222;
+
+            var signInResult = _authService.SignIn(signInDto);
+            signInResult.Should().NotBeNull();
+            signInResult.User.Should().NotBeNull();
+            signInResult.User.Name.Should().Be("test_name4");
+            signInResult.User.Id.Should().Be(13);
         }
     }
 }
