@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using AutoMapper;
+using ServicesLibrary.DTO;
 using ServicesLibrary.MapperProfiles;
 
 namespace ServicesLibrary.Auxiliaries
@@ -42,6 +43,15 @@ namespace ServicesLibrary.Auxiliaries
         {
             return print.Length > 9;
         }
+        
+        /// <summary>
+        /// Checks whenever terms of services in SignUpPayload accepted
+        /// </summary>
+        /// <returns></returns>
+        public static bool TermsOfServicesAccepted(SignUpPayload payload)
+        {
+            return payload.TermsOfServiceAccepted;
+        }
 
         /// <summary>
         /// Generates mapper with required mapping profiles
@@ -50,7 +60,10 @@ namespace ServicesLibrary.Auxiliaries
         public static Mapper CreateMapper()
         {
             var mapperConfig = new MapperConfiguration(
-                cfg => cfg.AddProfile(new AuthProfiles()));
+                cfg =>
+                {
+                    cfg.AddProfile(new AuthProfiles());
+                });
             
             return new Mapper(mapperConfig);
         }

@@ -7,7 +7,9 @@ namespace ServicesLibrary.MapperProfiles
     {
         public AuthProfiles()
         {
+            // source -> target
             CreateMap<SendCodeResult, SignUpPayload>();
+            CreateMap<SignUpPayload, SignInPayload>();
         }
     }
 }

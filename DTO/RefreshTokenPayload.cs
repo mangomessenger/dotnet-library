@@ -1,16 +1,12 @@
 ﻿using Newtonsoft.Json;
-using ServicesLibrary.Models;
 
 namespace ServicesLibrary.DTO
 {
     /// <summary>
-    /// Response type of POST endpoint: auth/signIn
-    /// NOTE: Consider to get single entity, since SignInResult == SignUpResult
+    /// Payload type for POST endpoint: auth/refresh-token
     /// </summary>
-    public class SignInResult
+    public class RefreshTokenPayload
     {
-        [JsonProperty("user")]
-        public User User { get; set; }
         [JsonProperty("access_token")]
         public string AccessToken { get; set; }
         [JsonProperty("refresh_token")]

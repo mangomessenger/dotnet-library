@@ -1,4 +1,5 @@
 ﻿using System;
+using AutoMapper;
 using FluentAssertions;
 using NUnit.Framework;
 using ServicesLibrary.DTO;
@@ -13,27 +14,36 @@ namespace ServicesLibrary.Tests
     public class AuthServiceTests
     {
         private readonly IAuthService _authService = new AuthService();
+        private static readonly Mapper Mapper = CreateMapper();
 
         [Test]
         public void SendCodeValidTest()
         {
-            var sendDto = new SendCodePayload
-            {
-                PhoneNumber = "789654124",
-                CountryCode = "PL",
-                Fingerprint = "1337121111111"
-            };
+            const string phone = "789654154";
+            const string countryCode = "PL";
+            const string fingerPrint = "1337121111111";
 
-            var sendCodeResult = _authService.SendCode(sendDto);
+            var sendCodeDto = new SendCodePayload(phone, countryCode, fingerPrint);
+
+            var sendCodeResult = _authService.SendCode(sendCodeDto);
             sendCodeResult.Should().NotBeNull();
-            sendCodeResult.PhoneNumber.Should().Be("+48789654124");
+            sendCodeResult.PhoneNumber.Should().Be("+48" + phone);
+            sendCodeResult.IsNew.Should().BeTrue();
+            sendCodeResult.Timeout.Should().Be(120);
+            sendCodeResult.CountryCode.Should().Be(countryCode);
+            sendCodeResult.PhoneCodeHash.Should().NotBe(null);
+            sendCodeResult.PhoneCodeHash.Should().NotBe(string.Empty);
         }
 
         [Test]
         public void SendCodeInvalidPhoneExceptionTest()
         {
-            var sendDto = new SendCodePayload("12312", "PL", "1337121111111");
-            Action a = () => _authService.SendCode(sendDto);
+            const string phone = "78";
+            const string countryCode = "PL";
+            const string fingerPrint = "1337121111111";
+
+            var sendCodeDto = new SendCodePayload(phone, countryCode, fingerPrint);
+            Action a = () => _authService.SendCode(sendCodeDto);
             a.Should().Throw<InvalidPhoneNumberFormatException>()
                 .WithMessage("Phone must be 9 digits long, w/o country code");
         }
@@ -41,8 +51,13 @@ namespace ServicesLibrary.Tests
         [Test]
         public void SendCodeInvalidCountryCodeExceptionTest()
         {
-            var sendDto = new SendCodePayload("789654123", "", "1337121111111");
-            Action a = () => _authService.SendCode(sendDto);
+            const string phone = "789654154";
+            const string countryCode = "";
+            const string fingerPrint = "1337121111111";
+
+            var sendCodeDto = new SendCodePayload(phone, countryCode, fingerPrint);
+
+            Action a = () => _authService.SendCode(sendCodeDto);
             a.Should().Throw<InvalidCountryCodeException>()
                 .WithMessage("Country code cannot be null or empty");
         }
@@ -50,8 +65,12 @@ namespace ServicesLibrary.Tests
         [Test]
         public void SendCodeInvalidFingerprintExceptionTest()
         {
-            var sendDto = new SendCodePayload("789654123", "PL", "");
-            Action a = () => _authService.SendCode(sendDto);
+            const string phone = "789654154";
+            const string countryCode = "PL";
+            const string fingerPrint = "";
+
+            var sendCodeDto = new SendCodePayload(phone, countryCode, fingerPrint);
+            Action a = () => _authService.SendCode(sendCodeDto);
             a.Should().Throw<InvalidFingerprintFormatException>()
                 .WithMessage("Fingerprint length must be 10 or more digits");
         }
@@ -59,40 +78,47 @@ namespace ServicesLibrary.Tests
         [Test]
         public void SignUpValidTest()
         {
-            // create auth request
-            var sendDto = new SendCodePayload
-            {
-                PhoneNumber = "789654128",
-                CountryCode = "PL",
-                Fingerprint = "1337121111111"
-            };
+            const string phone = "789654167";
+            const string countryCode = "PL";
+            const string fingerPrint = "1337121111111";
+            const string name = "test_name4";
+            const int phoneCode = 22222;
+            const bool accepted = true;
 
-            var sendCodeResult = _authService.SendCode(sendDto);
+            var sendCodeDto = new SendCodePayload(phone, countryCode, fingerPrint);
+
+            var sendCodeResult = _authService.SendCode(sendCodeDto);
             sendCodeResult.Should().NotBeNull();
-            sendCodeResult.PhoneNumber.Should().Be("+48789654128");
+            sendCodeResult.PhoneNumber.Should().Be("+48" + phone);
 
             // map auth request response
-            var mapper = CreateMapper();
-            var signUpDto = mapper.Map<SignUpPayload>(sendCodeResult);
+            var signUpDto = Mapper.Map<SignUpPayload>(sendCodeResult);
 
             // fill missing fields
-            signUpDto.Name = "test_name4";
-            signUpDto.PhoneCode = 22222;
-            signUpDto.TermsOfServiceAccepted = true;
+            signUpDto.Name = name;
+            signUpDto.PhoneCode = phoneCode;
+            signUpDto.TermsOfServiceAccepted = accepted;
 
             // use created object with endpoint
             var signUpResult = _authService.SignUp(signUpDto);
 
             // check data
-            signUpResult.User.Name.Should().Be("test_name4");
+            signUpResult.User.Name.Should().Be(name);
             signUpResult.AccessToken.Length.Should().BeGreaterThan(0);
             signUpResult.AccessToken.Should().NotBeNull();
+            signUpResult.AccessToken.Should().NotBe(string.Empty);
             signUpResult.RefreshToken.Length.Should().BeGreaterThan(0);
             signUpResult.RefreshToken.Should().NotBeNull();
+            signUpResult.RefreshToken.Should().NotBe(string.Empty);
         }
 
         [Test]
-        public void SignInTests()
+        public void SignUpTermsOfServiceNotAcceptedExceptionTest()
+        {
+        }
+
+        [Test]
+        public void SignInValidTest()
         {
         }
     }

@@ -53,6 +53,9 @@ namespace ServicesLibrary.Implementations
         /// <returns>Session object</returns>
         public SignUpResult SignUp(SignUpPayload payload)
         {
+            if (!TermsOfServicesAccepted(payload))
+                throw new TermsOfServiceNotAcceptedException("Accept terms of services in order to sign up");
+
             var request = new RestRequest(Url + "signUp", Method.POST);
             request.AddHeader("Content-type", "application/json");
             request.AddJsonBody(JsonConvert.SerializeObject(payload));
@@ -67,6 +70,26 @@ namespace ServicesLibrary.Implementations
         /// <param name="payload"></param>
         /// <returns></returns>
         public SignInResult SignIn(SignInPayload payload)
+        {
+            throw new System.NotImplementedException();
+        }
+        
+        /// <summary>
+        /// POST: Logs out from messenger
+        /// </summary>
+        /// <param name="session">SignInResult type</param>
+        /// <returns>True if ok, otherwise if was exception</returns>
+        public bool Logout(SignInResult session)
+        {
+            throw new System.NotImplementedException();
+        }
+        
+        /// <summary>
+        /// POST: Refreshes tokens
+        /// </summary>
+        /// <param name="payload"></param>
+        /// <returns></returns>
+        public RefreshTokenResult RefreshToken(RefreshTokenPayload payload)
         {
             throw new System.NotImplementedException();
         }

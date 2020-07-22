@@ -25,7 +25,21 @@ namespace ServicesLibrary.Interfaces
         /// POST: Login in messenger
         /// </summary>
         /// <param name="payload"></param>
-        /// <returns></returns>
+        /// <returns>New session in messenger</returns>
         SignInResult SignIn(SignInPayload payload);
+        
+        /// <summary>
+        /// POST: Logs out from messenger
+        /// </summary>
+        /// <param name="session">SignInResult type</param>
+        /// <returns>True if ok, otherwise if was exception</returns>
+        bool Logout(SignInResult session);
+        
+        /// <summary>
+        /// POST: Refreshes tokens
+        /// </summary>
+        /// <param name="payload"></param>
+        /// <returns></returns>
+        RefreshTokenResult RefreshToken(RefreshTokenPayload payload);
     }
 }
