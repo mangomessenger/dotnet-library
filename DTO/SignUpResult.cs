@@ -1,4 +1,5 @@
-﻿using ServicesLibrary.Models;
+﻿using Newtonsoft.Json;
+using ServicesLibrary.Models;
 
 namespace ServicesLibrary.DTO
 {
@@ -7,8 +8,11 @@ namespace ServicesLibrary.DTO
     /// </summary>
     public class SignUpResult
     {
+        [JsonProperty("user")]
         public User User { get; set; }
+        [JsonProperty("access_token")]
         public string AccessToken { get; set; }
+        [JsonProperty("refresh_token")]
         public string RefreshToken { get; set; }
     }
 }

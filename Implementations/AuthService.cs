@@ -3,6 +3,7 @@ using RestSharp;
 using ServicesLibrary.DTO;
 using ServicesLibrary.Exceptions.Auth;
 using ServicesLibrary.Interfaces;
+using static ServicesLibrary.Auxiliaries.AuthServiceAuxiliaries;
 
 namespace ServicesLibrary.Implementations
 {
@@ -28,13 +29,13 @@ namespace ServicesLibrary.Implementations
         /// <returns>Returns SendCodeResponse - required data for next step of authorization</returns>
         public SendCodeResult SendCode(SendCodePayload code)
         {
-            if (code.PhoneNumber.Length != 9)
-                throw new InvalidPhoneNumberFormatException("Phone must be 9 digits long");
+            if (!PhoneIsValid(code.PhoneNumber))
+                throw new InvalidPhoneNumberFormatException("Phone must be 9 digits long, w/o country code");
 
-            if (string.IsNullOrEmpty(code.CountryCode))
+            if (!CountryCodeIsValid(code.CountryCode))
                 throw new InvalidCountryCodeException("Country code cannot be null or empty");
 
-            if (code.Fingerprint.Length < 10)
+            if (!FingerprintIsValid(code.Fingerprint))
                 throw new InvalidFingerprintFormatException("Fingerprint length must be 10 or more digits");
 
             var request = new RestRequest(Url + "sendCode", Method.POST);
@@ -48,11 +49,16 @@ namespace ServicesLibrary.Implementations
         /// <summary>
         /// POST: Registration in messenger
         /// </summary>
-        /// <param name="payload">Payload DTO</param>
+        /// <param name="payload">SignUpPayload type</param>
         /// <returns>Session object</returns>
         public SignUpResult SignUp(SignUpPayload payload)
         {
-            throw new System.NotImplementedException();
+            var request = new RestRequest(Url + "signUp", Method.POST);
+            request.AddHeader("Content-type", "application/json");
+            request.AddJsonBody(JsonConvert.SerializeObject(payload));
+            var content = _restClient.Execute(request).Content;
+            var deserializeContent = JsonConvert.DeserializeObject<SignUpResult>(content);
+            return deserializeContent;
         }
 
         /// <summary>
