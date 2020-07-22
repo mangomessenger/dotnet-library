@@ -1,7 +1,7 @@
 ﻿namespace ServicesLibrary.DTO
 {
     /// <summary>
-    /// Response type of endpoint: auth/sendCode
+    /// Response type of POST endpoint: auth/sendCode
     /// </summary>
     public class SendCodeResponse
     {

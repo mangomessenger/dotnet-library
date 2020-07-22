@@ -1,7 +1,7 @@
 ﻿namespace ServicesLibrary.DTO
 {
     /// <summary>
-    /// Payload type of POST method: auth/signIn
+    /// Payload type of POST endpoint: auth/signIn
     /// </summary>
     public class SignInPayload
     {

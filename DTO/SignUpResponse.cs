@@ -3,7 +3,7 @@
 namespace ServicesLibrary.DTO
 {
     /// <summary>
-    /// Response type of POST method: auth/signUp
+    /// Response type of POST endpoint: auth/signUp
     /// </summary>
     public class SignUpResponse
     {
