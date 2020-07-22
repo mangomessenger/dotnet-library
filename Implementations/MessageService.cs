@@ -49,6 +49,7 @@ namespace ServicesLibrary.Implementations
         
         /// <summary>
         /// POST: Sends message to the chat
+        /// NOTE: Consider use DTO as paramater
         /// </summary>
         /// <param name="message">Message instance</param>
         /// <returns>Message object</returns>

@@ -1,4 +1,5 @@
-﻿using RestSharp;
+﻿using Newtonsoft.Json;
+using RestSharp;
 using ServicesLibrary.DTO;
 using ServicesLibrary.Interfaces;
 
@@ -12,12 +13,12 @@ namespace ServicesLibrary.Implementations
         /// <summary>
         /// Url of the api
         /// </summary>
-        private const string Url = "http://mango-api.appdead.space/";
+        private const string Url = "http://mango-api.appdead.space/auth/";
 
         /// <summary>
         /// Instance of rest sharp to interact with database
         /// </summary>
-        private readonly RestClient _restClient = new RestClient();
+        private readonly RestClient _restClient = new RestClient(Url);
 
         /// <summary>
         /// POST: Sends the verification code for SignIn / SignUp
@@ -26,7 +27,12 @@ namespace ServicesLibrary.Implementations
         /// <returns>Returns SendCodeResponse - required data for next step of authorization</returns>
         public SendCodeResult SendCode(SendCodePayload code)
         {
-            throw new System.NotImplementedException();
+            var request = new RestRequest(Url + "sendCode", Method.POST);
+            request.AddHeader("Content-type", "application/json");
+            request.AddJsonBody(JsonConvert.SerializeObject(code));
+            var content = _restClient.Execute(request).Content;
+            var deserializeContent = JsonConvert.DeserializeObject<SendCodeResult>(content);
+            return deserializeContent;
         }
 
         /// <summary>
