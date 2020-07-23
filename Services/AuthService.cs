@@ -9,25 +9,27 @@ using static ServicesLibrary.Validators.AuthServiceValidators;
 namespace ServicesLibrary.Services
 {
     /// <summary>
-    /// Concrete implementation of authorization endpoints: auth/sendCode, auth/signIn, auth/signUp
+    /// Concrete implementation of authorization endpoints of API: auth/sendCode, auth/signIn, auth/signUp
+    /// See https://mangomessenger.com/methods
     /// </summary>
     public class AuthService : IAuthService
     {
         /// <summary>
-        /// Url of the api
+        /// URL of the API
         /// </summary>
         private const string Url = "http://mango-api.appdead.space/auth/";
 
         /// <summary>
-        /// Instance of rest sharp to interact with database
+        /// Instance of RestSharp client to interact with API
         /// </summary>
         private readonly RestClient _restClient = new RestClient(Url);
 
         /// <summary>
         /// POST: Sends the verification code for SignIn / SignUp
+        /// See https://mangomessenger.com/methods/auth.sendCode
         /// </summary>
         /// <param name="code">Payload type</param>
-        /// <returns>Returns SendCodeResponse - required data for next step of authorization</returns>
+        /// <returns>Returns AuthRequest - required object for next step of authorization</returns>
         public AuthRequest SendCode(SendCodePayload code)
         {
             if (!PhoneIsValid(code.PhoneNumber))
@@ -48,8 +50,9 @@ namespace ServicesLibrary.Services
 
         /// <summary>
         /// POST: Registration in messenger
+        /// See https://mangomessenger.com/methods/auth.signUp
         /// </summary>
-        /// <param name="payload">SignUpPayload type</param>
+        /// <param name="payload">Payload DTO</param>
         /// <returns>Session object</returns>
         public Session SignUp(SignUpPayload payload)
         {
@@ -65,9 +68,10 @@ namespace ServicesLibrary.Services
 
         /// <summary>
         /// POST: Login in messenger
+        /// See https://mangomessenger.com/methods/auth.signIn
         /// </summary>
-        /// <param name="payload"></param>
-        /// <returns></returns>
+        /// <param name="payload">Parameter: SingIn DTO object</param>
+        /// <returns>New session in messenger</returns>
         public Session SignIn(SignInPayload payload)
         {
             var request = new RestRequest(Url + "signIn", Method.POST);
@@ -79,8 +83,9 @@ namespace ServicesLibrary.Services
 
         /// <summary>
         /// POST: Logs out from messenger
+        /// See https://mangomessenger.com/methods/auth.logout
         /// </summary>
-        /// <param name="session">SignInResult type</param>
+        /// <param name="session">Parameter: Current session of user</param>
         /// <returns>True if ok, otherwise if was exception</returns>
         public bool Logout(Session session)
         {
@@ -93,9 +98,10 @@ namespace ServicesLibrary.Services
 
         /// <summary>
         /// POST: Refreshes tokens
+        /// https://mangomessenger.com/methods/auth.refresh-tokens
         /// </summary>
-        /// <param name="payload"></param>
-        /// <returns></returns>
+        /// <param name="payload">TokenPayload DTO object</param>
+        /// <returns>Returns refreshed token object</returns>
         public Token RefreshToken(TokenPayload payload)
         {
             var request = new RestRequest(Url + "refresh-tokens", Method.POST);
