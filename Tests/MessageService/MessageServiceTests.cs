@@ -3,14 +3,16 @@ using System.Linq;
 using FluentAssertions;
 using NUnit.Framework;
 using ServicesLibrary.Models;
-using ServicesLibrary.Services;
 
-namespace ServicesLibrary.Tests
+namespace ServicesLibrary.Tests.MessageService
 {
+    /// <summary>
+    /// This test class will be separated by specified cases
+    /// </summary>
     [TestFixture]
     public class MessageServiceTests
     {
-        private readonly MessageService _messageService = new MessageService();
+        private readonly Services.MessageService _messageService = new Services.MessageService();
 
         [Test]
         public void GetMessageByIdTest()
