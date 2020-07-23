@@ -7,11 +7,8 @@ namespace ServicesLibrary.Models
     /// </summary>
     public class Session
     {
-        [JsonProperty("user")]
-        public User User { get; set; }
-        [JsonProperty("access_token")]
-        public string AccessToken { get; set; }
-        [JsonProperty("refresh_token")]
-        public string RefreshToken { get; set; }
+        [JsonProperty("user")] public User User { get; set; }
+        [JsonProperty("access_token")] public string AccessToken { get; set; }
+        [JsonProperty("refresh_token")] public string RefreshToken { get; set; }
     }
 }

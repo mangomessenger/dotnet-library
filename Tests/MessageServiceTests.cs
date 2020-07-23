@@ -2,8 +2,8 @@
 using System.Linq;
 using FluentAssertions;
 using NUnit.Framework;
-using ServicesLibrary.Implementations;
 using ServicesLibrary.Models;
+using ServicesLibrary.Services;
 
 namespace ServicesLibrary.Tests
 {

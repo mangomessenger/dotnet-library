@@ -6,7 +6,7 @@ using ServicesLibrary.Interfaces;
 using ServicesLibrary.Models;
 using static ServicesLibrary.Validators.AuthServiceValidators;
 
-namespace ServicesLibrary.Implementations
+namespace ServicesLibrary.Services
 {
     /// <summary>
     /// Concrete implementation of authorization endpoints: auth/sendCode, auth/signIn, auth/signUp
@@ -43,8 +43,7 @@ namespace ServicesLibrary.Implementations
             request.AddHeader("Content-type", "application/json");
             request.AddJsonBody(JsonConvert.SerializeObject(code));
             var content = _restClient.Execute(request).Content;
-            var deserializeContent = JsonConvert.DeserializeObject<AuthRequest>(content);
-            return deserializeContent;
+            return JsonConvert.DeserializeObject<AuthRequest>(content);
         }
 
         /// <summary>
@@ -61,8 +60,7 @@ namespace ServicesLibrary.Implementations
             request.AddHeader("Content-type", "application/json");
             request.AddJsonBody(JsonConvert.SerializeObject(payload));
             var content = _restClient.Execute(request).Content;
-            var deserializeContent = JsonConvert.DeserializeObject<Session>(content);
-            return deserializeContent;
+            return JsonConvert.DeserializeObject<Session>(content);
         }
 
         /// <summary>
@@ -76,8 +74,7 @@ namespace ServicesLibrary.Implementations
             request.AddHeader("Content-type", "application/json");
             request.AddJsonBody(JsonConvert.SerializeObject(payload));
             var content = _restClient.Execute(request).Content;
-            var deserializeContent = JsonConvert.DeserializeObject<Session>(content);
-            return deserializeContent;
+            return JsonConvert.DeserializeObject<Session>(content);
         }
 
         /// <summary>
@@ -87,7 +84,11 @@ namespace ServicesLibrary.Implementations
         /// <returns>True if ok, otherwise if was exception</returns>
         public bool Logout(Session session)
         {
-            throw new System.NotImplementedException();
+            var request = new RestRequest(Url + "logout", Method.POST);
+            request.AddHeader("Content-type", "application/json");
+            request.AddJsonBody(JsonConvert.SerializeObject(session));
+            var content = _restClient.Execute(request).Content;
+            return !content.Contains("400") && !content.Contains("422");
         }
 
         /// <summary>
@@ -97,7 +98,11 @@ namespace ServicesLibrary.Implementations
         /// <returns></returns>
         public Token RefreshToken(TokenPayload payload)
         {
-            throw new System.NotImplementedException();
+            var request = new RestRequest(Url + "refresh-tokens", Method.POST);
+            request.AddHeader("Content-type", "application/json");
+            request.AddJsonBody(JsonConvert.SerializeObject(payload));
+            var content = _restClient.Execute(request).Content;
+            return JsonConvert.DeserializeObject<Token>(content);
         }
     }
 }

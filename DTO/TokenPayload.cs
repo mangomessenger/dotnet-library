@@ -7,9 +7,17 @@ namespace ServicesLibrary.DTO
     /// </summary>
     public class TokenPayload
     {
-        [JsonProperty("access_token")]
-        public string AccessToken { get; set; }
-        [JsonProperty("refresh_token")]
-        public string RefreshToken { get; set; }
+        [JsonProperty("refresh_token")] public string RefreshToken { get; set; }
+        [JsonProperty("fingerprint")] public string Fingerprint { get; set; }
+
+        public TokenPayload(string refreshToken, string fingerprint)
+        {
+            RefreshToken = refreshToken;
+            Fingerprint = fingerprint;
+        }
+
+        public TokenPayload()
+        {
+        }
     }
 }

@@ -3,7 +3,7 @@ using RestSharp;
 using ServicesLibrary.Interfaces;
 using ServicesLibrary.Models;
 
-namespace ServicesLibrary.Implementations
+namespace ServicesLibrary.Services
 {
     public class MessageService : IMessageService<Message>
     {
