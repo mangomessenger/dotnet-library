@@ -9,22 +9,21 @@ using static ServicesLibrary.Validators.AuthServiceValidators;
 namespace ServicesLibrary.Services
 {
     /// <summary>
+    /// 
     /// Concrete implementation of authorization endpoints of API: auth/sendCode, auth/signIn, auth/signUp
+    /// 
     /// See https://mangomessenger.com/methods
+    /// 
     /// </summary>
     public class AuthService : IAuthService
     {
         /// <summary>
-        /// 
         /// URL of the API
-        /// 
         /// </summary>
         private const string Url = "http://mango-api.appdead.space/auth/";
 
         /// <summary>
-        /// 
         /// Instance of RestSharp client to interact with API
-        /// 
         /// </summary>
         private readonly RestClient _restClient = new RestClient(Url);
 
