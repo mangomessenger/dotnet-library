@@ -1,16 +1,17 @@
 ﻿using AutoMapper;
 using ServicesLibrary.DTO;
+using ServicesLibrary.Models;
 
-namespace ServicesLibrary.MapperProfiles
+namespace ServicesLibrary.MapperFiles.Profiles
 {
     public class AuthProfiles : Profile
     {
         public AuthProfiles()
         {
             // source -> target
-            CreateMap<SendCodeResult, SignUpPayload>();
+            CreateMap<AuthRequest, SignUpPayload>();
             CreateMap<SignUpPayload, SignInPayload>();
-            CreateMap<SendCodeResult, SignInPayload>();
+            CreateMap<AuthRequest, SignInPayload>();
         }
     }
 }

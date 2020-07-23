@@ -1,12 +1,14 @@
 ﻿using Newtonsoft.Json;
 
-namespace ServicesLibrary.DTO
+namespace ServicesLibrary.Models
 {
     /// <summary>
-    /// Payload type for POST endpoint: auth/refresh-token
+    /// Response type of POST endpoint: auth/signUp
     /// </summary>
-    public class RefreshTokenPayload
+    public class Session
     {
+        [JsonProperty("user")]
+        public User User { get; set; }
         [JsonProperty("access_token")]
         public string AccessToken { get; set; }
         [JsonProperty("refresh_token")]

@@ -6,7 +6,7 @@ using ServicesLibrary.DTO;
 using ServicesLibrary.Exceptions.Auth;
 using ServicesLibrary.Implementations;
 using ServicesLibrary.Interfaces;
-using static ServicesLibrary.Auxiliaries.AuthServiceAuxiliaries;
+using static ServicesLibrary.MapperFiles.MapperFactory;
 
 namespace ServicesLibrary.Tests
 {
@@ -14,7 +14,7 @@ namespace ServicesLibrary.Tests
     public class AuthServiceTests
     {
         private readonly IAuthService _authService = new AuthService();
-        private static readonly Mapper Mapper = CreateMapper();
+        private static readonly Mapper Mapper = GetMapperInstance();
 
         [Test]
         public void SendCodeValidTest()
@@ -78,10 +78,10 @@ namespace ServicesLibrary.Tests
         [Test]
         public void SignUpValidTest()
         {
-            const string phone = "789654168";
+            const string phone = "782654168";
             const string countryCode = "PL";
             const string fingerPrint = "1337121111111";
-            const string name = "test_name4";
+            const string name = "test_name5";
             const int phoneCode = 22222;
             const bool accepted = true;
 
@@ -134,7 +134,7 @@ namespace ServicesLibrary.Tests
             sendCodeResult.CountryCode.Should().Be(countryCode);
             sendCodeResult.PhoneCodeHash.Should().NotBe(null);
             sendCodeResult.PhoneCodeHash.Should().NotBe(string.Empty);
-            
+
             // sign in try
             var signInDto = Mapper.Map<SignInPayload>(sendCodeResult);
             signInDto.PhoneCode = 22222;

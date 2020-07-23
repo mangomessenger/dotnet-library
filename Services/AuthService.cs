@@ -3,6 +3,7 @@ using RestSharp;
 using ServicesLibrary.DTO;
 using ServicesLibrary.Exceptions.Auth;
 using ServicesLibrary.Interfaces;
+using ServicesLibrary.Models;
 using static ServicesLibrary.Auxiliaries.AuthServiceAuxiliaries;
 
 namespace ServicesLibrary.Implementations
@@ -27,7 +28,7 @@ namespace ServicesLibrary.Implementations
         /// </summary>
         /// <param name="code">Payload type</param>
         /// <returns>Returns SendCodeResponse - required data for next step of authorization</returns>
-        public SendCodeResult SendCode(SendCodePayload code)
+        public AuthRequest SendCode(SendCodePayload code)
         {
             if (!PhoneIsValid(code.PhoneNumber))
                 throw new InvalidPhoneNumberFormatException("Phone must be 9 digits long, w/o country code");
@@ -42,7 +43,7 @@ namespace ServicesLibrary.Implementations
             request.AddHeader("Content-type", "application/json");
             request.AddJsonBody(JsonConvert.SerializeObject(code));
             var content = _restClient.Execute(request).Content;
-            var deserializeContent = JsonConvert.DeserializeObject<SendCodeResult>(content);
+            var deserializeContent = JsonConvert.DeserializeObject<AuthRequest>(content);
             return deserializeContent;
         }
 
@@ -51,7 +52,7 @@ namespace ServicesLibrary.Implementations
         /// </summary>
         /// <param name="payload">SignUpPayload type</param>
         /// <returns>Session object</returns>
-        public SignUpResult SignUp(SignUpPayload payload)
+        public Session SignUp(SignUpPayload payload)
         {
             if (!TermsOfServicesAccepted(payload))
                 throw new TermsOfServiceNotAcceptedException("Accept terms of services in order to sign up");
@@ -60,7 +61,7 @@ namespace ServicesLibrary.Implementations
             request.AddHeader("Content-type", "application/json");
             request.AddJsonBody(JsonConvert.SerializeObject(payload));
             var content = _restClient.Execute(request).Content;
-            var deserializeContent = JsonConvert.DeserializeObject<SignUpResult>(content);
+            var deserializeContent = JsonConvert.DeserializeObject<Session>(content);
             return deserializeContent;
         }
 
@@ -69,13 +70,13 @@ namespace ServicesLibrary.Implementations
         /// </summary>
         /// <param name="payload"></param>
         /// <returns></returns>
-        public SignInResult SignIn(SignInPayload payload)
+        public Session SignIn(SignInPayload payload)
         {
             var request = new RestRequest(Url + "signIn", Method.POST);
             request.AddHeader("Content-type", "application/json");
             request.AddJsonBody(JsonConvert.SerializeObject(payload));
             var content = _restClient.Execute(request).Content;
-            var deserializeContent = JsonConvert.DeserializeObject<SignInResult>(content);
+            var deserializeContent = JsonConvert.DeserializeObject<Session>(content);
             return deserializeContent;
         }
 
@@ -84,7 +85,7 @@ namespace ServicesLibrary.Implementations
         /// </summary>
         /// <param name="session">SignInResult type</param>
         /// <returns>True if ok, otherwise if was exception</returns>
-        public bool Logout(SignInResult session)
+        public bool Logout(Session session)
         {
             throw new System.NotImplementedException();
         }
@@ -94,7 +95,7 @@ namespace ServicesLibrary.Implementations
         /// </summary>
         /// <param name="payload"></param>
         /// <returns></returns>
-        public RefreshTokenResult RefreshToken(RefreshTokenPayload payload)
+        public Token RefreshToken(TokenPayload payload)
         {
             throw new System.NotImplementedException();
         }

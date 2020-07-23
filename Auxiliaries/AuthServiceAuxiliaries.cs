@@ -1,8 +1,5 @@
-﻿using System;
-using System.Linq;
-using AutoMapper;
+﻿using System.Linq;
 using ServicesLibrary.DTO;
-using ServicesLibrary.MapperProfiles;
 
 namespace ServicesLibrary.Auxiliaries
 {
@@ -54,18 +51,6 @@ namespace ServicesLibrary.Auxiliaries
         }
 
         /// <summary>
-        /// Generates mapper with required mapping profiles
-        /// </summary>
-        /// <returns></returns>
-        public static Mapper CreateMapper()
-        {
-            var mapperConfig = new MapperConfiguration(
-                cfg => { cfg.AddProfile(new AuthProfiles()); });
-
-            return new Mapper(mapperConfig);
-        }
-
-        /// <summary>
         /// Extension method. Removes whitespaces from string.
         /// </summary>
         /// <param name="input">string, where need to remove w/s's</param>
@@ -73,7 +58,7 @@ namespace ServicesLibrary.Auxiliaries
         private static string RemoveWhitespace(this string input)
         {
             return new string(input.ToCharArray()
-                .Where(c => !Char.IsWhiteSpace(c))
+                .Where(c => !char.IsWhiteSpace(c))
                 .ToArray());
         }
     }
