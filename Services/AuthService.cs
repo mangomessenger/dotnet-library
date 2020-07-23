@@ -4,7 +4,7 @@ using ServicesLibrary.DTO;
 using ServicesLibrary.Exceptions.Auth;
 using ServicesLibrary.Interfaces;
 using ServicesLibrary.Models;
-using static ServicesLibrary.Auxiliaries.AuthServiceValidators;
+using static ServicesLibrary.Validators.AuthServiceValidators;
 
 namespace ServicesLibrary.Implementations
 {

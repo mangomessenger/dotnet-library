@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using ServicesLibrary.DTO;
 
-namespace ServicesLibrary.Auxiliaries
+namespace ServicesLibrary.Validators
 {
     /// <summary>
     /// Auxiliary class in order to verify Auth Service parameters correct format
