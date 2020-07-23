@@ -6,7 +6,7 @@ namespace ServicesLibrary.Auxiliaries
     /// <summary>
     /// Auxiliary class in order to verify Auth Service parameters correct format
     /// </summary>
-    public static class AuthServiceAuxiliaries
+    public static class AuthServiceValidators
     {
         /// <summary>
         /// Verifies that phone number format is correct
