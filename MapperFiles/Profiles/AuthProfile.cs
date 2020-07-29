@@ -4,9 +4,9 @@ using ServicesLibrary.Models;
 
 namespace ServicesLibrary.MapperFiles.Profiles
 {
-    public class AuthProfiles : Profile
+    public class AuthProfile : Profile
     {
-        public AuthProfiles()
+        public AuthProfile()
         {
             // source -> target
             CreateMap<AuthRequest, SignUpPayload>();

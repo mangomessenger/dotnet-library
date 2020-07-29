@@ -8,7 +8,7 @@ using ServicesLibrary.MapperFiles;
 namespace ServicesLibrary.Tests.AuthService
 {
     [TestFixture]
-    public class SignInTests
+    public class SignInTest
     {
         private readonly IAuthService _authService = new Services.AuthService();
         private static readonly Mapper Mapper = MapperFactory.GetMapperInstance();

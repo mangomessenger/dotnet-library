@@ -10,7 +10,7 @@ namespace ServicesLibrary.Tests.MessageService
     /// This test class will be separated by specified cases
     /// </summary>
     [TestFixture]
-    public class MessageServiceTests
+    public class MessageServiceTest
     {
         private readonly Services.MessageService _messageService = new Services.MessageService();
 

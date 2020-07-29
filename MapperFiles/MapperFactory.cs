@@ -9,7 +9,7 @@ namespace ServicesLibrary.MapperFiles
         {
             var configuration = new MapperConfiguration(cfg =>
             {
-                cfg.AddProfile(new AuthProfiles());
+                cfg.AddProfile(new AuthProfile());
             });
 
             return new Mapper(configuration);

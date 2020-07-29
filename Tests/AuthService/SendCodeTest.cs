@@ -8,7 +8,7 @@ using ServicesLibrary.Interfaces;
 namespace ServicesLibrary.Tests.AuthService
 {
     [TestFixture]
-    public class SendCodeTests
+    public class SendCodeTest
     {
         private readonly IAuthService _authService = new Services.AuthService();
 
