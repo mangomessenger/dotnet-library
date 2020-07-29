@@ -16,12 +16,11 @@ namespace ServicesLibrary.Tests.AuthService
         [Test]
         public void SignIn_Valid_Test()
         {
-            const string phone = "789654154"; // this user should be signed up already
+            // send code part
+            const string phone = "789654154";
             const string countryCode = "PL";
             const string fingerPrint = "1337121111111";
-
             var sendCodePayload = new SendCodePayload(phone, countryCode, fingerPrint);
-
             var authRequest = _authService.SendCode(sendCodePayload);
             authRequest.Should().NotBeNull();
             authRequest.PhoneNumber.Should().Be("+48" + phone);
@@ -31,9 +30,9 @@ namespace ServicesLibrary.Tests.AuthService
             authRequest.PhoneCodeHash.Should().NotBe(null);
             authRequest.PhoneCodeHash.Should().NotBe(string.Empty);
 
+            // sign in part
             var signInPayload = Mapper.Map<SignInPayload>(authRequest);
             signInPayload.PhoneCode = 22222;
-
             var session = _authService.SignIn(signInPayload);
             session.Should().NotBeNull();
             session.User.Should().NotBeNull();

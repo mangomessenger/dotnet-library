@@ -16,6 +16,7 @@ namespace ServicesLibrary.Tests.AuthService
         [Test]
         public void RefreshToken_Valid_Test()
         {
+            // send code part
             const string phone = "789654154";
             const string countryCode = "PL";
             const string fingerPrint = "1337121111111";
@@ -31,7 +32,7 @@ namespace ServicesLibrary.Tests.AuthService
             authRequest.PhoneCodeHash.Should().NotBe(null);
             authRequest.PhoneCodeHash.Should().NotBe(string.Empty);
 
-            // sign in try
+            // sign in part
             var signInPayload = Mapper.Map<SignInPayload>(authRequest);
             signInPayload.PhoneCode = 22222;
 
@@ -43,6 +44,7 @@ namespace ServicesLibrary.Tests.AuthService
             session.AccessToken.Should().NotBeNullOrEmpty();
             session.RefreshToken.Should().NotBeNullOrEmpty();
 
+            // refresh token part
             var tokenPayload = new TokenPayload(session.RefreshToken, fingerPrint);
             var token = _authService.RefreshToken(tokenPayload);
             token.AccessToken.Should().NotBeNullOrEmpty();

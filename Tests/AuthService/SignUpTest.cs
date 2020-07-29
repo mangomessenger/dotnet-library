@@ -18,7 +18,7 @@ namespace ServicesLibrary.Tests.AuthService
         public void SignUp_Valid_Test()
         {
             // send code part
-            const string phone = "782654268";
+            const string phone = "782654268";    // phone number must be unique - otherwise null ref exception
             const string countryCode = "PL";
             const string fingerPrint = "1337121111111";
             const string name = "test_name5";
