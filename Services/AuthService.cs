@@ -20,7 +20,7 @@ namespace ServicesLibrary.Services
         /// <summary>
         /// URL of the API
         /// </summary>
-        private const string Url = "http://mango-api.appdead.space/auth/";
+        private const string Url = "http://localhost/auth/";
 
         /// <summary>
         /// Instance of RestSharp client to interact with API

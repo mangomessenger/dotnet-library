@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using ServicesLibrary.Interfaces.Chat;
 
 namespace ServicesLibrary.Interfaces
 {
@@ -11,44 +12,32 @@ namespace ServicesLibrary.Interfaces
         /// <summary>
         /// GET: Returns message with specified id
         /// </summary>
-        /// <param name="id">Integer, id of message to be returnes</param>
+        /// <param name="id">Integer, id of message to be returns</param>
         /// <returns>T - message or null if no any</returns>
-        T GetMessageById(int id);
+        T GetMessageById(uint id);
 
         /// <summary>
         /// GET: Returns all messages from chat by id, chat is for two users only
         /// </summary>
-        /// <param name="chatId">Integer, id of chat</param>
+        /// <param name="chat"></param>
         /// <returns>Enum of messages of chat by chat id</returns>
-        IEnumerable<T> GetChatMessagesById(int chatId);
-
-        /// <summary>
-        /// GET: Returns all messages from group by id
-        /// </summary>
-        /// <param name="groupId">Integer - id of group</param>
-        /// <returns>Enum of messages of group by group id</returns>
-        IEnumerable<T> GetGroupMessagesById(int groupId);
+        IEnumerable<T> GetMessages(IChat chat);
 
         /// <summary>
         /// POST: sends message to chat, group or readonly chat by id
         /// Data of chat_id, message type in inside parameter
         /// </summary>
+        /// <param name="chat"></param>
         /// <param name="message">Message to be sent to chat</param>
         /// <returns>Instance of sent message</returns>
-        T SendMessage(T message);
+        T SendMessage(IChat chat, string message);
 
         /// <summary>
         /// PUT: Edits message as a whole, not partial edit
         /// </summary>
         /// <param name="message">T: message which to be edited</param>
-        void EditMessage(T message);
+        void UpdateMessage(T message);
 
-        /// <summary>
-        /// PATCH: partially edits message, eg. changes only its text, etc
-        /// </summary>
-        /// <param name="message"></param>
-        void PartialEditMessage(T message);
-        
         /// <summary>
         /// DELETE: deletes message from chat or group
         /// </summary>
