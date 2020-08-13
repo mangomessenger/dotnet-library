@@ -19,10 +19,10 @@ namespace ServicesLibrary.Interfaces
         /// 
         /// </summary>
         /// 
-        /// <param name="code">Payload type</param>
+        /// <param name="payload">Payload type</param>
         /// 
         /// <returns>Returns AuthRequest - required object for next step of authorization</returns>
-        AuthRequest SendCode(SendCodePayload code);
+        AuthRequest SendCode(SendCodePayload payload);
 
         /// <summary>
         /// 
@@ -35,7 +35,7 @@ namespace ServicesLibrary.Interfaces
         /// <param name="payload">Payload DTO</param>
         /// 
         /// <returns>Session object</returns>
-        Session SignUp(RegisterPayload payload);
+        Session Register(RegisterPayload payload);
         
         /// <summary>
         /// 

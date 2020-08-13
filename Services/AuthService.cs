@@ -34,23 +34,23 @@ namespace ServicesLibrary.Services
         /// 
         /// </summary>
         /// 
-        /// <param name="code">Payload type</param>
+        /// <param name="payload">Payload type</param>
         /// 
         /// <returns>Returns AuthRequest - required object for next step of authorization</returns>
-        public AuthRequest SendCode(SendCodePayload code)
+        public AuthRequest SendCode(SendCodePayload payload)
         {
-            if (!PhoneIsValid(code.PhoneNumber))
+            if (!PhoneIsValid(payload.PhoneNumber))
                 throw new InvalidPhoneNumberFormatException("Phone must be 9 digits long, w/o country code");
 
-            if (!CountryCodeIsValid(code.CountryCode))
+            if (!CountryCodeIsValid(payload.CountryCode))
                 throw new InvalidCountryCodeException("Country code cannot be null or empty");
 
-            if (!FingerprintIsValid(code.Fingerprint))
-                throw new InvalidFingerprintFormatException("Fingerprint length must be 10 or more digits");
+            if (!FingerprintIsValid(payload.Fingerprint))
+                throw new InvalidFingerprintFormatException("Fingerprint length must be 5 or more digits");
 
             var request = new RestRequest(Url + "send-code", Method.POST);
             request.AddHeader("Content-type", "application/json");
-            request.AddJsonBody(JsonConvert.SerializeObject(code));
+            request.AddJsonBody(JsonConvert.SerializeObject(payload));
             var content = _restClient.Execute(request).Content;
             return JsonConvert.DeserializeObject<AuthRequest>(content);
         }
@@ -66,7 +66,7 @@ namespace ServicesLibrary.Services
         /// <param name="payload">Payload DTO</param>
         /// 
         /// <returns>Session object</returns>
-        public Session SignUp(RegisterPayload payload)
+        public Session Register(RegisterPayload payload)
         {
             if (!TermsOfServicesAccepted(payload))
                 throw new TermsOfServiceNotAcceptedException("Accept terms of services in order to sign up");
@@ -113,7 +113,7 @@ namespace ServicesLibrary.Services
         {
             var request = new RestRequest(Url + "logout", Method.POST);
             request.AddHeader("Content-type", "application/json");
-            request.AddJsonBody(JsonConvert.SerializeObject(session.Tokens.RefreshToken));
+            request.AddJsonBody(JsonConvert.SerializeObject(session.Tokens));
             var content = _restClient.Execute(request).Content;
             return !content.Contains("400") && !content.Contains("422");
         }

@@ -3,7 +3,7 @@
 namespace ServicesLibrary.Models
 {
     /// <summary>
-    /// Response type of POST endpoint: auth/signUp
+    /// Response type of POST endpoints: auth/register, auth/login
     /// </summary>
     public class Session
     {

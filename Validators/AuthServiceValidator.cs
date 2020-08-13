@@ -15,10 +15,7 @@ namespace ServicesLibrary.Validators
         /// <returns></returns>
         public static bool PhoneIsValid(string phone)
         {
-            var data = phone.Replace('+', ' ').RemoveWhitespace();
-            var correctLength = data.Length == 9;
-            var digitsOnly = phone.All(char.IsDigit);
-            return correctLength && digitsOnly;
+            return phone.Length >= 9;
         }
 
         /// <summary>
@@ -38,7 +35,7 @@ namespace ServicesLibrary.Validators
         /// <returns></returns>
         public static bool FingerprintIsValid(string print)
         {
-            return print.Length > 9;
+            return print.Length > 5;
         }
 
         /// <summary>
