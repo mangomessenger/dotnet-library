@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using ServicesLibrary.Enums;
+using System.Numerics;
+using Newtonsoft.Json;
 using ServicesLibrary.Models;
 
 namespace ServicesLibrary.Interfaces.Chat
 {
     public interface IChat
     {
-        public int Id { get; set; }
-        public List<User> Members { get; set; }
-        public ChatTypeEnum ChatType { get; set; }
-        public DateTime UpdatedAt { get; set; }
+        [JsonProperty("id")] public BigInteger Id { get; set; }
+        [JsonProperty("members")] public List<User> Members { get; set; }
+        [JsonProperty("updated_at")] public int UpdatedAt { get; set; }
     }
 }

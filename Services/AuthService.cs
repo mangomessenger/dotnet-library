@@ -20,7 +20,7 @@ namespace ServicesLibrary.Services
         /// <summary>
         /// URL of the API
         /// </summary>
-        private const string Url = "http://10.160.3.105/auth/";
+        private const string Url = "http://localhost/auth/";
 
         /// <summary>
         /// Instance of RestSharp client to interact with API
