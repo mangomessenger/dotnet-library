@@ -4,7 +4,10 @@ using ServicesLibrary.Interfaces.Chat;
 namespace ServicesLibrary.Interfaces
 {
     /// <summary>
+    /// 
     /// Interface for PUT, POST, GET etc interaction with messenger API
+    ///
+    /// See also https://mangomessenger.com/methods
     /// </summary>
     /// <typeparam name="T">T - type of message, e.g: text, voice, smile, sticker</typeparam>
     public interface IMessageService<T> where T : class

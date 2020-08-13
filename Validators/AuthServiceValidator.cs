@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using ServicesLibrary.DTO;
+using ServicesLibrary.Models;
 
 namespace ServicesLibrary.Validators
 {
@@ -45,7 +45,7 @@ namespace ServicesLibrary.Validators
         /// Checks whenever terms of services in SignUpPayload accepted
         /// </summary>
         /// <returns></returns>
-        public static bool TermsOfServicesAccepted(SignUpPayload payload)
+        public static bool TermsOfServicesAccepted(RegisterPayload payload)
         {
             return payload.TermsOfServiceAccepted;
         }

@@ -8,7 +8,6 @@ namespace ServicesLibrary.Models
     public class Session
     {
         [JsonProperty("user")] public User User { get; set; }
-        [JsonProperty("access_token")] public string AccessToken { get; set; }
-        [JsonProperty("refresh_token")] public string RefreshToken { get; set; }
+        [JsonProperty("tokens")] public Tokens Tokens { get; set; }
     }
 }

@@ -1,5 +1,4 @@
-﻿using ServicesLibrary.DTO;
-using ServicesLibrary.Models;
+﻿using ServicesLibrary.Models;
 
 namespace ServicesLibrary.Interfaces
 {
@@ -36,7 +35,7 @@ namespace ServicesLibrary.Interfaces
         /// <param name="payload">Payload DTO</param>
         /// 
         /// <returns>Session object</returns>
-        Session SignUp(SignUpPayload payload);
+        Session SignUp(RegisterPayload payload);
         
         /// <summary>
         /// 
@@ -49,7 +48,7 @@ namespace ServicesLibrary.Interfaces
         /// <param name="payload">Parameter: SingIn DTO object</param>
         /// 
         /// <returns>New session in messenger</returns>
-        Session SignIn(SignInPayload payload);
+        Session Login(LoginPayload payload);
         
         /// <summary>
         /// 
@@ -75,6 +74,6 @@ namespace ServicesLibrary.Interfaces
         /// <param name="payload">TokenPayload DTO object</param>
         /// 
         /// <returns>Returns refreshed token object</returns>
-        Token RefreshToken(TokenPayload payload);
+        Tokens RefreshToken(RefreshTokensPayload payload);
     }
 }

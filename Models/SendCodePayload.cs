@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace ServicesLibrary.DTO
+namespace ServicesLibrary.Models
 {
     /// <summary>
     /// Payload type of POST endpoint: auth/sendCode

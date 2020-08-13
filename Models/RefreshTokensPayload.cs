@@ -1,22 +1,22 @@
 ﻿using Newtonsoft.Json;
 
-namespace ServicesLibrary.DTO
+namespace ServicesLibrary.Models
 {
     /// <summary>
     /// Payload type for POST endpoint: auth/refresh-token
     /// </summary>
-    public class TokenPayload
+    public class RefreshTokensPayload
     {
         [JsonProperty("refresh_token")] public string RefreshToken { get; set; }
         [JsonProperty("fingerprint")] public string Fingerprint { get; set; }
 
-        public TokenPayload(string refreshToken, string fingerprint)
+        public RefreshTokensPayload(string refreshToken, string fingerprint)
         {
             RefreshToken = refreshToken;
             Fingerprint = fingerprint;
         }
 
-        public TokenPayload()
+        public RefreshTokensPayload()
         {
         }
     }

@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using RestSharp;
-using ServicesLibrary.DTO;
 using ServicesLibrary.Exceptions.Auth;
 using ServicesLibrary.Interfaces;
 using ServicesLibrary.Models;
@@ -10,7 +9,7 @@ namespace ServicesLibrary.Services
 {
     /// <summary>
     /// 
-    /// Concrete implementation of authorization endpoints of API: auth/sendCode, auth/signIn, auth/signUp
+    /// Concrete implementation of authorization endpoints of API: send-code, register, login, logout, refresh-tokens
     /// 
     /// See https://mangomessenger.com/methods
     /// 
@@ -20,7 +19,7 @@ namespace ServicesLibrary.Services
         /// <summary>
         /// URL of the API
         /// </summary>
-        private const string Url = "http://localhost/auth/";
+        private const string Url = "http://10.160.3.105/auth/";
 
         /// <summary>
         /// Instance of RestSharp client to interact with API
@@ -29,7 +28,7 @@ namespace ServicesLibrary.Services
 
         /// <summary>
         /// 
-        /// POST: Sends the verification code for SignIn / SignUp
+        /// POST: Sends the verification code for register / login
         /// 
         /// See https://mangomessenger.com/methods/auth.sendCode
         /// 
@@ -49,7 +48,7 @@ namespace ServicesLibrary.Services
             if (!FingerprintIsValid(code.Fingerprint))
                 throw new InvalidFingerprintFormatException("Fingerprint length must be 10 or more digits");
 
-            var request = new RestRequest(Url + "sendCode", Method.POST);
+            var request = new RestRequest(Url + "send-code", Method.POST);
             request.AddHeader("Content-type", "application/json");
             request.AddJsonBody(JsonConvert.SerializeObject(code));
             var content = _restClient.Execute(request).Content;
@@ -60,19 +59,19 @@ namespace ServicesLibrary.Services
         /// 
         /// POST: Registration in messenger
         /// 
-        /// See https://mangomessenger.com/methods/auth.signUp
+        /// See https://mangomessenger.com/methods/post/auth.register
         /// 
         /// </summary>
         /// 
         /// <param name="payload">Payload DTO</param>
         /// 
         /// <returns>Session object</returns>
-        public Session SignUp(SignUpPayload payload)
+        public Session SignUp(RegisterPayload payload)
         {
             if (!TermsOfServicesAccepted(payload))
                 throw new TermsOfServiceNotAcceptedException("Accept terms of services in order to sign up");
 
-            var request = new RestRequest(Url + "signUp", Method.POST);
+            var request = new RestRequest(Url + "register", Method.POST);
             request.AddHeader("Content-type", "application/json");
             request.AddJsonBody(JsonConvert.SerializeObject(payload));
             var content = _restClient.Execute(request).Content;
@@ -83,16 +82,16 @@ namespace ServicesLibrary.Services
         /// 
         /// POST: Login in messenger
         /// 
-        /// See https://mangomessenger.com/methods/auth.signIn
+        /// See https://mangomessenger.com/methods/post/auth.login
         /// 
         /// </summary>
         /// 
-        /// <param name="payload">Parameter: SingIn DTO object</param>
+        /// <param name="payload">Parameter: Login DTO object</param>
         /// 
         /// <returns>New session in messenger</returns>
-        public Session SignIn(SignInPayload payload)
+        public Session Login(LoginPayload payload)
         {
-            var request = new RestRequest(Url + "signIn", Method.POST);
+            var request = new RestRequest(Url + "login", Method.POST);
             request.AddHeader("Content-type", "application/json");
             request.AddJsonBody(JsonConvert.SerializeObject(payload));
             var content = _restClient.Execute(request).Content;
@@ -103,7 +102,7 @@ namespace ServicesLibrary.Services
         /// 
         /// POST: Logs out from messenger
         /// 
-        /// See https://mangomessenger.com/methods/auth.logout
+        /// See https://mangomessenger.com/methods/post/auth.logout
         /// 
         /// </summary>
         /// 
@@ -114,7 +113,7 @@ namespace ServicesLibrary.Services
         {
             var request = new RestRequest(Url + "logout", Method.POST);
             request.AddHeader("Content-type", "application/json");
-            request.AddJsonBody(JsonConvert.SerializeObject(session));
+            request.AddJsonBody(JsonConvert.SerializeObject(session.Tokens.RefreshToken));
             var content = _restClient.Execute(request).Content;
             return !content.Contains("400") && !content.Contains("422");
         }
@@ -123,20 +122,20 @@ namespace ServicesLibrary.Services
         /// 
         /// POST: Refreshes tokens
         /// 
-        /// https://mangomessenger.com/methods/auth.refresh-tokens
+        /// https://mangomessenger.com/methods/post/auth.refresh-tokens
         /// 
         /// </summary>
         /// 
         /// <param name="payload">TokenPayload DTO object</param>
         /// 
         /// <returns>Returns refreshed token object</returns>
-        public Token RefreshToken(TokenPayload payload)
+        public Tokens RefreshToken(RefreshTokensPayload payload)
         {
             var request = new RestRequest(Url + "refresh-tokens", Method.POST);
             request.AddHeader("Content-type", "application/json");
             request.AddJsonBody(JsonConvert.SerializeObject(payload));
             var content = _restClient.Execute(request).Content;
-            return JsonConvert.DeserializeObject<Token>(content);
+            return JsonConvert.DeserializeObject<Tokens>(content);
         }
     }
 }

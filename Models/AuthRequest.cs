@@ -11,6 +11,5 @@ namespace ServicesLibrary.Models
         [JsonProperty("country_code")] public string CountryCode { get; set; }
         [JsonProperty("phone_code_hash")] public string PhoneCodeHash { get; set; }
         [JsonProperty("is_new")] public bool IsNew { get; set; }
-        [JsonProperty("timeout")] public int Timeout { get; set; }
     }
 }

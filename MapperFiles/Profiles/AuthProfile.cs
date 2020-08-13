@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using ServicesLibrary.DTO;
 using ServicesLibrary.Models;
 
 namespace ServicesLibrary.MapperFiles.Profiles
@@ -9,9 +8,9 @@ namespace ServicesLibrary.MapperFiles.Profiles
         public AuthProfile()
         {
             // source -> target
-            CreateMap<AuthRequest, SignUpPayload>();
-            CreateMap<SignUpPayload, SignInPayload>();
-            CreateMap<AuthRequest, SignInPayload>();
+            CreateMap<AuthRequest, RegisterPayload>();
+            CreateMap<RegisterPayload, LoginPayload>();
+            CreateMap<AuthRequest, LoginPayload>();
         }
     }
 }

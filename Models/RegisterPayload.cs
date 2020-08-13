@@ -1,11 +1,11 @@
 ﻿using Newtonsoft.Json;
 
-namespace ServicesLibrary.DTO
+namespace ServicesLibrary.Models
 {
     /// <summary>
-    /// Payload type of POST endpoint: auth/signUp
+    /// Payload type of POST endpoint: auth/register
     /// </summary>
-    public class SignUpPayload
+    public class RegisterPayload
     {
         [JsonProperty("phone_number")] public string PhoneNumber { get; set; }
         [JsonProperty("country_code")] public string CountryCode { get; set; }
