@@ -13,7 +13,7 @@ namespace ServicesLibrary.Models.Chat
         [JsonProperty("description")] public string Description { get; set; }
         [JsonProperty("creator")] public User Creator { get; set; }
         [JsonProperty("members")] public List<User> Members { get; set; }
-        public ChatTypeEnum ChatType { get; set; } = ChatTypeEnum.Channel;
+        [JsonProperty("chat_type")] public ChatTypeEnum ChatType { get; set; } = ChatTypeEnum.Channel;
         [JsonProperty("tag")] public string Tag { get; set; }
         [JsonProperty("photo_url")] public string PhotoUrl { get; set; }
         [JsonProperty("verified")] public bool Verified { get; set; }
