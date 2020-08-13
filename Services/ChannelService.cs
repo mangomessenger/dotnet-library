@@ -6,25 +6,25 @@ using ServicesLibrary.Models.Payload;
 
 namespace ServicesLibrary.Services
 {
-    public class ChatService
+    public class ChannelService
     {
         private readonly RestClient _restClient = new RestClient();
         private const string Url = "http://localhost/chats/direct-chats";
         private readonly Session _session;
 
-        public ChatService(Session session)
+        public ChannelService(Session session)
         {
             _session = session;
         }
-
+        
         /// <summary>
         /// 
-        /// Creates a new direct chat.
+        /// Creates a new channel.
         ///
-        /// See https://mangomessenger.com/methods/post/chats.direct-chats
+        /// See https://mangomessenger.com/methods/post/chats.channels
         /// 
         /// </summary>
-        public DirectChat CreateDirectChat(CreateDirectChatPayload payload)
+        public Channel CreateChannel(CreateChannelPayload payload)
         {
             _restClient.Timeout = -1;
             var request = new RestRequest(Url, Method.POST);
@@ -32,7 +32,7 @@ namespace ServicesLibrary.Services
             request.AddHeader("Content-type", "application/json");
             request.AddJsonBody(JsonConvert.SerializeObject(payload));
             var content = _restClient.Execute(request).Content;
-            return JsonConvert.DeserializeObject<DirectChat>(content);
+            return JsonConvert.DeserializeObject<Channel>(content);
         }
     }
 }
