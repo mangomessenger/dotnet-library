@@ -1,4 +1,5 @@
 ﻿using ServicesLibrary.Models;
+using ServicesLibrary.Models.Payload;
 
 namespace ServicesLibrary.Interfaces
 {

@@ -3,6 +3,7 @@ using RestSharp;
 using ServicesLibrary.Exceptions.Auth;
 using ServicesLibrary.Interfaces;
 using ServicesLibrary.Models;
+using ServicesLibrary.Models.Payload;
 using static ServicesLibrary.Validators.AuthServiceValidator;
 
 namespace ServicesLibrary.Services

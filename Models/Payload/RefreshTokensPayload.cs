@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace ServicesLibrary.Models
+namespace ServicesLibrary.Models.Payload
 {
     /// <summary>
     /// Payload type for POST endpoint: auth/refresh-token
