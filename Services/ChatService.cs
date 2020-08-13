@@ -1,12 +1,14 @@
 ﻿using Newtonsoft.Json;
 using RestSharp;
+using ServicesLibrary.Interfaces;
+using ServicesLibrary.Interfaces.Chat;
 using ServicesLibrary.Models;
 using ServicesLibrary.Models.Chat;
 using ServicesLibrary.Models.Payload;
 
 namespace ServicesLibrary.Services
 {
-    public class ChatService
+    public class ChatService : IChatService
     {
         private readonly RestClient _restClient = new RestClient();
         private const string Url = "http://localhost/chats/direct-chats";
@@ -24,7 +26,7 @@ namespace ServicesLibrary.Services
         /// See https://mangomessenger.com/methods/post/chats.direct-chats
         /// 
         /// </summary>
-        public DirectChat CreateDirectChat(CreateDirectChatPayload payload)
+        public IChat CreateDirectChat(CreateDirectChatPayload payload)
         {
             _restClient.Timeout = -1;
             var request = new RestRequest(Url, Method.POST);
