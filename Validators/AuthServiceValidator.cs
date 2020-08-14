@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using ServicesLibrary.Models;
 using ServicesLibrary.Models.Payload;
 
 namespace ServicesLibrary.Validators

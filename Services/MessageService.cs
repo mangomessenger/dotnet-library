@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Numerics;
 using Newtonsoft.Json;
 using RestSharp;
 using ServicesLibrary.Interfaces;
@@ -41,14 +40,14 @@ namespace ServicesLibrary.Services
         /// 
         /// </summary>
         /// <returns>Enum of messages of chat by chat id</returns>
-        public List<Message> GetMessages(IChat chat)
+        public List<Message> GetMessages(IChat chat, out string response)
         {
             var request = new RestRequest(Url, Method.GET);
             request.AddHeader("Authorization", $"Bearer {_session.Tokens.AccessToken}\"");
             request.AddHeader("Content-type", "application/json");
             request.AddJsonBody(JsonConvert.SerializeObject(chat));
-            var content = _restClient.Execute(request).Content;
-            return JsonConvert.DeserializeObject<List<Message>>(content);
+            response = _restClient.Execute(request).Content;
+            return JsonConvert.DeserializeObject<List<Message>>(response);
         }
 
         /// <summary>
@@ -72,9 +71,15 @@ namespace ServicesLibrary.Services
         /// PUT: Updates information on a message in a chat.
         /// 
         /// </summary>
-        public void UpdateMessage(Message message)
+        public string UpdateMessage(Message message, string updatedText)
         {
-            throw new System.NotImplementedException();
+            var request = new RestRequest(Url + message.Id, Method.PUT);
+            request.AddHeader("Authorization", $"Bearer {_session.Tokens.AccessToken}\"");
+            request.AddHeader("Content-type", "application/json");
+            var payload = new UpdateMessagePayload {Message = updatedText};
+            request.AddJsonBody(JsonConvert.SerializeObject(payload));
+            var content = _restClient.Execute(request).Content;
+            return content;
         }
 
         /// <summary>
@@ -82,7 +87,7 @@ namespace ServicesLibrary.Services
         /// DELETE: Deletes a message from a channel.
         /// 
         /// </summary>
-        public void DeleteMessage(Message message)
+        public string DeleteMessage(Message message)
         {
             throw new System.NotImplementedException();
         }

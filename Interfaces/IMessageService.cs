@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Numerics;
 using ServicesLibrary.Interfaces.Chat;
 using ServicesLibrary.Models;
 
@@ -26,7 +25,7 @@ namespace ServicesLibrary.Interfaces
         /// GET: Retrieves a list of past messages of a channel.
         /// 
         /// </summary>
-        List<Message> GetMessages(IChat chat);
+        List<Message> GetMessages(IChat chat, out string response);
 
         /// <summary>
         /// 
@@ -37,16 +36,16 @@ namespace ServicesLibrary.Interfaces
 
         /// <summary>
         /// 
-        /// PUT: Updates information on a message in a chat.
+        /// PUT: Updates information on a message in a chat. Return server's response
         /// 
         /// </summary>
-        void UpdateMessage(Message message);
+        string UpdateMessage(Message message, string updatedText);
 
         /// <summary>
         /// 
-        /// DELETE: Deletes a message from a channel.
+        /// DELETE: Deletes a message from a channel. Return server's response.
         /// 
         /// </summary>
-        void DeleteMessage(Message message);
+        string DeleteMessage(Message message);
     }
 }
