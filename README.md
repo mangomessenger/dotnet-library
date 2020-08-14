@@ -8,3 +8,6 @@
 - Write unit tests
 
 ## To Do
+
+1. Encapsulate requests to seapreted classes
+2. Design an exceptions to be thrown in auth, chats, messages endpoints

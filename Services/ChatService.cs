@@ -9,7 +9,7 @@ namespace ServicesLibrary.Services
     public class ChatService
     {
         private readonly RestClient _restClient = new RestClient();
-        private const string Url = "http://localhost/chats/direct-chats";
+        private const string Url = "http://localhost/chats/direct-chats/";
         private readonly Session _session;
 
         public ChatService(Session session)

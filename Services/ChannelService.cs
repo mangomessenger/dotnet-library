@@ -9,7 +9,7 @@ namespace ServicesLibrary.Services
     public class ChannelService
     {
         private readonly RestClient _restClient = new RestClient();
-        private const string Url = "http://localhost/chats/channels";
+        private const string Url = "http://localhost/chats/channels/";
         private readonly Session _session;
 
         public ChannelService(Session session)

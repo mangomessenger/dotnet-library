@@ -9,7 +9,7 @@ namespace ServicesLibrary.Services
     public class GroupService
     {
         private readonly RestClient _restClient = new RestClient();
-        private const string Url = "http://localhost/chats/groups";
+        private const string Url = "http://localhost/chats/groups/";
         private readonly Session _session;
 
         public GroupService(Session session)

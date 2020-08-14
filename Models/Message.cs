@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.Numerics;
+using Newtonsoft.Json;
 
 namespace ServicesLibrary.Models
 {
@@ -7,11 +8,11 @@ namespace ServicesLibrary.Models
     /// </summary>
     public class Message
     {
-        public int Id { get; set; }
-        public int ChatId { get; set; }
-        public int UserId { get; set; }
-        public string MessageText { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public DateTime UpdatedAt { get; set; }
+        [JsonProperty("id")] public int Id { get; set; }
+        [JsonProperty("chat_id")] public BigInteger ChatId { get; set; }
+        [JsonProperty("from")] public User From { get; set; }
+        [JsonProperty("message")] public string MessageText { get; set; }
+        [JsonProperty("created_at")] public int CreatedAt { get; set; }
+        [JsonProperty("updated_at")] public int UpdatedAt { get; set; }
     }
 }
