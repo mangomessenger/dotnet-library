@@ -12,7 +12,7 @@ namespace ServicesLibrary.Services
     public class MessageService : IMessageService
     {
         private readonly RestClient _restClient = new RestClient();
-        private const string Url = "http://localhost/messages/";
+        private const string Url = "http://localhost/messages";
         private readonly Session _session;
 
         public MessageService(Session session)
@@ -39,7 +39,12 @@ namespace ServicesLibrary.Services
         /// <returns>Enum of messages of chat by chat id</returns>
         public List<Message> GetMessages(IChat chat)
         {
-            throw new System.NotImplementedException();
+            var request = new RestRequest(Url, Method.GET);
+            request.AddHeader("Authorization", $"Bearer {_session.Tokens.AccessToken}\"");
+            request.AddHeader("Content-type", "application/json");
+            request.AddJsonBody(JsonConvert.SerializeObject(chat));
+            var content = _restClient.Execute(request).Content;
+            return JsonConvert.DeserializeObject<List<Message>>(content);
         }
 
         /// <summary>
