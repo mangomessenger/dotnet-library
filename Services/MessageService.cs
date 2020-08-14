@@ -12,7 +12,7 @@ namespace ServicesLibrary.Services
     public class MessageService : IMessageService
     {
         private readonly RestClient _restClient = new RestClient();
-        private const string Url = "http://localhost/messages";
+        private const string Url = "http://localhost/messages/";
         private readonly Session _session;
 
         public MessageService(Session session)
@@ -26,9 +26,13 @@ namespace ServicesLibrary.Services
         /// GET: Retrieves information on a message.
         /// 
         /// </summary>
-        public Message GetMessageById(BigInteger id)
+        public Message GetMessageById(int id)
         {
-            throw new System.NotImplementedException();
+            var request = new RestRequest(Url + id, Method.GET);
+            request.AddHeader("Authorization", $"Bearer {_session.Tokens.AccessToken}\"");
+            request.AddHeader("Content-type", "application/json");
+            var content = _restClient.Execute(request).Content;
+            return JsonConvert.DeserializeObject<Message>(content);
         }
 
         /// <summary>

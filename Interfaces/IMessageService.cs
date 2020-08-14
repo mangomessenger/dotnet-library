@@ -19,7 +19,7 @@ namespace ServicesLibrary.Interfaces
         /// GET: Retrieves information on a message.
         /// 
         /// </summary>
-        Message GetMessageById(BigInteger id);
+        Message GetMessageById(int id);
 
         /// <summary>
         /// 
