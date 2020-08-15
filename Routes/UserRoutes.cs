@@ -1,6 +1,6 @@
 ﻿namespace ServicesLibrary.Routes
 {
-    public class UserRoutes
+    public static class UserRoutes
     {
         public const string UserRoute = "users";
     }

@@ -62,7 +62,7 @@ namespace ServicesLibrary.Interfaces
         /// <param name="session">Parameter: Current session of user</param>
         /// 
         /// <returns>True if ok, otherwise if was exception</returns>
-        bool Logout(Session session);
+        string Logout(Session session);
         
         /// <summary>
         /// 

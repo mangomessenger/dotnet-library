@@ -1,7 +1,7 @@
 ﻿namespace ServicesLibrary.Routes
 {
-    public class MessageRoutes
+    public static class MessageRoutes
     {
-        public const string MessageRoute = "messages";
+        public const string Messages = "messages";
     }
 }

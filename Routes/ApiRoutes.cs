@@ -1,6 +1,6 @@
 ﻿namespace ServicesLibrary.Routes
 {
-    public class ApiRoutes
+    public static class ApiRoutes
     {
         public const string ApiRoute = "http://localhost";
     }
