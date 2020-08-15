@@ -5,6 +5,7 @@ using ServicesLibrary.Interfaces;
 using ServicesLibrary.Interfaces.Chat;
 using ServicesLibrary.Models;
 using ServicesLibrary.Models.Payload;
+using ServicesLibrary.Requests;
 using static ServicesLibrary.Routes.ApiRoutes;
 using static ServicesLibrary.Routes.MessageRoutes;
 
@@ -13,7 +14,7 @@ namespace ServicesLibrary.Services
     public class MessageService : IMessageService
     {
         // "http://localhost/messages/"
-        private static  readonly string Route = $"{ApiRoute}/{Messages}/";
+        private static readonly string Route = $"{ApiRoute}/{Messages}/";
         private readonly RestClient _restClient = new RestClient(Route);
         private readonly Session _session;
 
@@ -30,9 +31,7 @@ namespace ServicesLibrary.Services
         /// </summary>
         public Message GetMessageById(int messageId)
         {
-            var request = new RestRequest(Route + messageId, Method.GET);
-            request.AddHeader("Authorization", $"Bearer {_session.Tokens.AccessToken}");
-            request.AddHeader("Content-type", "application/json");
+            var request = ApiRequests.Get(Route + messageId, _session);
             var content = _restClient.Execute(request).Content;
             return JsonConvert.DeserializeObject<Message>(content);
         }
@@ -45,9 +44,7 @@ namespace ServicesLibrary.Services
         /// <returns>Enum of messages of chat by chat id</returns>
         public List<Message> GetMessages(IChat chat, out string response)
         {
-            var request = new RestRequest(Method.GET);
-            request.AddHeader("Authorization", $"Bearer {_session.Tokens.AccessToken}");
-            request.AddHeader("Content-type", "application/json");
+            var request = ApiRequests.Get(_session);
             request.AddJsonBody(JsonConvert.SerializeObject(chat));
             response = _restClient.Execute(request).Content;
             return JsonConvert.DeserializeObject<List<Message>>(response);
@@ -61,9 +58,7 @@ namespace ServicesLibrary.Services
         public Message SendMessage(IChat chat, string text)
         {
             var messagePayload = new SendMessagePayload(chat.Id, chat.ChatType, text);
-            var request = new RestRequest(Method.POST);
-            request.AddHeader("Authorization", $"Bearer {_session.Tokens.AccessToken}");
-            request.AddHeader("Content-type", "application/json");
+            var request = ApiRequests.Post(_session);
             request.AddJsonBody(JsonConvert.SerializeObject(messagePayload));
             var content = _restClient.Execute(request).Content;
             return JsonConvert.DeserializeObject<Message>(content);
@@ -76,9 +71,7 @@ namespace ServicesLibrary.Services
         /// </summary>
         public string UpdateMessage(Message message, string updatedText)
         {
-            var request = new RestRequest(Route + message.Id, Method.PUT);
-            request.AddHeader("Authorization", $"Bearer {_session.Tokens.AccessToken}");
-            request.AddHeader("Content-type", "application/json");
+            var request = ApiRequests.Put(Route + message.Id, _session);
             var payload = new UpdateMessagePayload {Message = updatedText};
             request.AddJsonBody(JsonConvert.SerializeObject(payload));
             var response = _restClient.Execute(request).Content;
@@ -92,9 +85,7 @@ namespace ServicesLibrary.Services
         /// </summary>
         public string DeleteMessage(Message message)
         {
-            var request = new RestRequest(Route + message.Id, Method.DELETE);
-            request.AddHeader("Authorization", $"Bearer {_session.Tokens.AccessToken}");
-            request.AddHeader("Content-type", "application/json");
+            var request = ApiRequests.Delete(Route + message.Id, _session);
             var response = _restClient.Execute(request).Content;
             return response;
         }

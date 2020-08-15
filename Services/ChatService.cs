@@ -30,7 +30,7 @@ namespace ServicesLibrary.Services
         /// </summary>
         public DirectChat CreateDirectChat(CreateDirectChatPayload payload)
         {
-            var request = PostRequests.AuthorizedPostRequest(_session);
+            var request = ApiRequests.Post(_session);
             request.AddJsonBody(JsonConvert.SerializeObject(payload));
             var content = _restClient.Execute(request).Content;
             return JsonConvert.DeserializeObject<DirectChat>(content);

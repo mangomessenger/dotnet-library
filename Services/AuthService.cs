@@ -4,6 +4,7 @@ using ServicesLibrary.Exceptions.Auth;
 using ServicesLibrary.Interfaces;
 using ServicesLibrary.Models;
 using ServicesLibrary.Models.Payload;
+using ServicesLibrary.Requests;
 using ServicesLibrary.Routes;
 using static ServicesLibrary.Routes.ApiRoutes;
 using static ServicesLibrary.Routes.AuthRoutes;
@@ -42,8 +43,7 @@ namespace ServicesLibrary.Services
             if (!FingerprintIsValid(payload.Fingerprint))
                 throw new InvalidFingerprintFormatException("Fingerprint length must be 5 or more digits");
 
-            var request = new RestRequest(Route + AuthRoutes.SendCode, Method.POST);
-            request.AddHeader("Content-type", "application/json");
+            var request = ApiRequests.Post(Route + AuthRoutes.SendCode);
             request.AddJsonBody(JsonConvert.SerializeObject(payload));
             var content = _restClient.Execute(request).Content;
             return JsonConvert.DeserializeObject<AuthRequest>(content);
@@ -61,8 +61,7 @@ namespace ServicesLibrary.Services
             if (!TermsOfServicesAccepted(payload))
                 throw new TermsOfServiceNotAcceptedException("Accept terms of services in order to sign up");
 
-            var request = new RestRequest(Route + AuthRoutes.Register, Method.POST);
-            request.AddHeader("Content-type", "application/json");
+            var request = ApiRequests.Post(Route + AuthRoutes.Register);
             request.AddJsonBody(JsonConvert.SerializeObject(payload));
             var content = _restClient.Execute(request).Content;
             return JsonConvert.DeserializeObject<Session>(content);
@@ -77,8 +76,7 @@ namespace ServicesLibrary.Services
         /// </summary>
         public Session Login(LoginPayload payload)
         {
-            var request = new RestRequest(Route + AuthRoutes.Login, Method.POST);
-            request.AddHeader("Content-type", "application/json");
+            var request = ApiRequests.Post(Route + AuthRoutes.Login);
             request.AddJsonBody(JsonConvert.SerializeObject(payload));
             var content = _restClient.Execute(request).Content;
             return JsonConvert.DeserializeObject<Session>(content);
@@ -93,8 +91,7 @@ namespace ServicesLibrary.Services
         /// </summary>
         public string Logout(Session session)
         {
-            var request = new RestRequest(Route + AuthRoutes.Logout, Method.POST);
-            request.AddHeader("Content-type", "application/json");
+            var request = ApiRequests.Post(Route + AuthRoutes.Logout);
             request.AddJsonBody(JsonConvert.SerializeObject(session.Tokens));
             var response = _restClient.Execute(request).Content;
             return response;
@@ -109,8 +106,7 @@ namespace ServicesLibrary.Services
         /// </summary>
         public Tokens RefreshTokens(RefreshTokensPayload payload)
         {
-            var request = new RestRequest(Route + AuthRoutes.RefreshTokens, Method.POST);
-            request.AddHeader("Content-type", "application/json");
+            var request = ApiRequests.Post(Route + AuthRoutes.RefreshTokens);
             request.AddJsonBody(JsonConvert.SerializeObject(payload));
             var content = _restClient.Execute(request).Content;
             return JsonConvert.DeserializeObject<Tokens>(content);
