@@ -32,5 +32,40 @@ namespace ServicesLibrary.Requests
 
             return request;
         }
+
+        public static HttpRequestMessage Get(string route)
+        {
+            var request = new HttpRequestMessage
+            {
+                Method = HttpMethod.Get,
+                RequestUri = new Uri(route)
+            };
+
+            return request;
+        }
+
+        public static HttpRequestMessage Put(string route, object body)
+        {
+            var payload = JsonConvert.SerializeObject(body);
+            var request = new HttpRequestMessage
+            {
+                Method = HttpMethod.Put,
+                RequestUri = new Uri(route),
+                Content = new StringContent(payload, Encoding.Default, "application/json")
+            };
+
+            return request;
+        }
+
+        public static HttpRequestMessage Delete(string route)
+        {
+            var request = new HttpRequestMessage
+            {
+                Method = HttpMethod.Delete,
+                RequestUri = new Uri(route)
+            };
+
+            return request;
+        }
     }
 }

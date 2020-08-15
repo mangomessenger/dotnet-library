@@ -29,7 +29,7 @@ namespace ServicesLibrary.Services
             _httpClient.DefaultRequestHeaders.Authorization
                 = new AuthenticationHeaderValue("Bearer", _session.Tokens.AccessToken);
         }
-        
+
         public Message GetMessageById(int messageId)
         {
             var request = RestSharpRequest.Get(Route + messageId, _session);
@@ -37,9 +37,15 @@ namespace ServicesLibrary.Services
             return JsonConvert.DeserializeObject<Message>(content);
         }
 
-        public Task<Message> GetMessageByIdAsync(int messageId)
+        public async Task<Message> GetMessageByIdAsync(int messageId)
         {
-            throw new NotImplementedException();
+            var request = HttpRequest.Get(Route + messageId);
+            var response = await _httpClient.SendAsync(request).ConfigureAwait(false);
+            response.EnsureSuccessStatusCode();
+            var responseBody = await response.Content.ReadAsStringAsync()
+                .ConfigureAwait(false);
+
+            return JsonConvert.DeserializeObject<Message>(responseBody);
         }
 
         public List<Message> GetMessages(IChat chat)
@@ -53,17 +59,16 @@ namespace ServicesLibrary.Services
         public async Task<List<Message>> GetMessagesAsync(IChat chat)
         {
             var model = new GetChatMessagesPayload(chat.Id, chat.ChatType);
-            var payload = JsonConvert.SerializeObject(model);
-            var request = HttpRequest.Get(Route, payload);
+            var request = HttpRequest.Get(Route, model);
             var response = await _httpClient.SendAsync(request).ConfigureAwait(false);
             response.EnsureSuccessStatusCode();
 
             var responseBody = await response.Content.ReadAsStringAsync()
                 .ConfigureAwait(false);
-            
+
             return JsonConvert.DeserializeObject<List<Message>>(responseBody);
         }
-        
+
         public Message SendMessage(IChat chat, string text)
         {
             var messagePayload = new SendMessagePayload(chat.Id, chat.ChatType, text);
@@ -73,9 +78,18 @@ namespace ServicesLibrary.Services
             return JsonConvert.DeserializeObject<Message>(content);
         }
 
-        public Task<Message> SendMessageAsync(IChat chat, string text)
+        public async Task<Message> SendMessageAsync(IChat chat, string text)
         {
-            throw new NotImplementedException();
+            var messagePayload = new SendMessagePayload(chat.Id, chat.ChatType, text);
+            var request = HttpRequest.Post(Route, messagePayload);
+            
+            var response = await _httpClient.SendAsync(request).ConfigureAwait(false);
+            response.EnsureSuccessStatusCode();
+
+            var responseBody = await response.Content.ReadAsStringAsync()
+                .ConfigureAwait(false);
+
+            return JsonConvert.DeserializeObject<Message>(responseBody);
         }
 
         public string UpdateMessage(Message message, string updatedText)
@@ -87,9 +101,17 @@ namespace ServicesLibrary.Services
             return response;
         }
 
-        public Task<string> UpdateMessageAsync(Message message, string updatedText)
+        public async Task<string> UpdateMessageAsync(Message message, string updatedText)
         {
-            throw new NotImplementedException();
+            var payload = new UpdateMessagePayload {Message = updatedText};
+            var request = HttpRequest.Put(Route + message.Id, payload);
+            var response = await _httpClient.SendAsync(request).ConfigureAwait(false);
+            response.EnsureSuccessStatusCode();
+
+            var responseBody = await response.Content.ReadAsStringAsync()
+                .ConfigureAwait(false);
+
+            return JsonConvert.DeserializeObject<string>(responseBody);
         }
 
         public string DeleteMessage(Message message)
