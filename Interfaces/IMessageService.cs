@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using ServicesLibrary.Interfaces.Chat;
 using ServicesLibrary.Models;
 
@@ -26,6 +27,11 @@ namespace ServicesLibrary.Interfaces
         /// 
         /// </summary>
         List<Message> GetMessages(IChat chat, out string response);
+
+        /// <summary>
+        /// Get Messages from chat async
+        /// </summary>
+        Task<List<Message>> GetMessagesAsync(IChat chat);
 
         /// <summary>
         /// 

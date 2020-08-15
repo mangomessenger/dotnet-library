@@ -1,4 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using RestSharp;
 using ServicesLibrary.Interfaces;
@@ -16,11 +21,14 @@ namespace ServicesLibrary.Services
         // "http://localhost/messages/"
         private static readonly string Route = $"{ApiRoot}/{Messages}/";
         private readonly RestClient _restClient = new RestClient(Route);
+        private readonly HttpClient _httpClient = new HttpClient();
         private readonly Session _session;
 
         public MessageService(Session session)
         {
             _session = session;
+            _httpClient.DefaultRequestHeaders.Authorization
+                = new AuthenticationHeaderValue("Bearer", _session.Tokens.AccessToken);
         }
 
 
@@ -48,6 +56,25 @@ namespace ServicesLibrary.Services
             request.AddJsonBody(JsonConvert.SerializeObject(chat));
             response = _restClient.Execute(request).Content;
             return JsonConvert.DeserializeObject<List<Message>>(response);
+        }
+
+        public async Task<List<Message>> GetMessagesAsync(IChat chat)
+        {
+            var model = new GetChatMessagesPayload(chat.Id, chat.ChatType);
+            var payload = JsonConvert.SerializeObject(model);
+            var request = new HttpRequestMessage
+            {
+                Method = HttpMethod.Get,
+                RequestUri = new Uri(Route),
+                Content = new StringContent(payload, Encoding.Default, "application/json")
+            };
+            var response = await _httpClient.SendAsync(request).ConfigureAwait(false);
+            response.EnsureSuccessStatusCode();
+
+            var responseBody = await response.Content.ReadAsStringAsync()
+                .ConfigureAwait(false);
+            
+            return JsonConvert.DeserializeObject<List<Message>>(responseBody);
         }
 
         /// <summary>
