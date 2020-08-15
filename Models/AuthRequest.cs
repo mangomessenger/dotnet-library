@@ -2,9 +2,6 @@
 
 namespace ServicesLibrary.Models
 {
-    /// <summary>
-    /// Response type of POST endpoint: auth/sendCode
-    /// </summary>
     public class AuthRequest
     {
         [JsonProperty("phone_number")] public string PhoneNumber { get; set; }

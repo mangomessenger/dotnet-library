@@ -3,9 +3,6 @@ using Newtonsoft.Json;
 
 namespace ServicesLibrary.Models
 {
-    /// <summary>
-    /// Represents messages relation in database
-    /// </summary>
     public class Message
     {
         [JsonProperty("id")] public int Id { get; set; }
