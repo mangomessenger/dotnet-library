@@ -1,5 +1,4 @@
-﻿using RestSharp;
-using ServicesLibrary.Models;
+﻿using ServicesLibrary.Models;
 using static ServicesLibrary.Routes.ApiRoute;
 using static ServicesLibrary.Routes.UserRoute;
 
@@ -9,7 +8,6 @@ namespace ServicesLibrary.Services
     {
         // "http://localhost/users/"
         private static readonly string Route = $"{ApiRoot}/{Users}/";
-        private readonly RestClient _restClient = new RestClient(Route);
         private readonly Session _session;
 
         public UserService(Session session)
