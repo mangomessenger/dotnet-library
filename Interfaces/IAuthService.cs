@@ -19,10 +19,6 @@ namespace ServicesLibrary.Interfaces
         /// See https://mangomessenger.com/methods/auth.sendCode
         /// 
         /// </summary>
-        /// 
-        /// <param name="payload">Payload type</param>
-        /// 
-        /// <returns>Returns AuthRequest - required object for next step of authorization</returns>
         AuthRequest SendCode(SendCodePayload payload);
 
         /// <summary>
@@ -32,10 +28,6 @@ namespace ServicesLibrary.Interfaces
         /// See https://mangomessenger.com/methods/auth.signUp
         /// 
         /// </summary>
-        /// 
-        /// <param name="payload">Payload DTO</param>
-        /// 
-        /// <returns>Session object</returns>
         Session Register(RegisterPayload payload);
         
         /// <summary>
@@ -45,10 +37,6 @@ namespace ServicesLibrary.Interfaces
         /// See https://mangomessenger.com/methods/auth.signIn
         /// 
         /// </summary>
-        /// 
-        /// <param name="payload">Parameter: SingIn DTO object</param>
-        /// 
-        /// <returns>New session in messenger</returns>
         Session Login(LoginPayload payload);
         
         /// <summary>
@@ -58,10 +46,6 @@ namespace ServicesLibrary.Interfaces
         /// See https://mangomessenger.com/methods/auth.logout
         /// 
         /// </summary>
-        /// 
-        /// <param name="session">Parameter: Current session of user</param>
-        /// 
-        /// <returns>True if ok, otherwise if was exception</returns>
         string Logout(Session session);
         
         /// <summary>
@@ -71,10 +55,6 @@ namespace ServicesLibrary.Interfaces
         /// https://mangomessenger.com/methods/auth.refresh-tokens
         /// 
         /// </summary>
-        /// 
-        /// <param name="payload">TokenPayload DTO object</param>
-        /// 
-        /// <returns>Returns refreshed token object</returns>
-        Tokens RefreshToken(RefreshTokensPayload payload);
+        Tokens RefreshTokens(RefreshTokensPayload payload);
     }
 }

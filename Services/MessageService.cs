@@ -28,9 +28,9 @@ namespace ServicesLibrary.Services
         /// GET: Retrieves information on a message.
         /// 
         /// </summary>
-        public Message GetMessageById(int id)
+        public Message GetMessageById(int messageId)
         {
-            var request = new RestRequest(Route + id, Method.GET);
+            var request = new RestRequest(Route + messageId, Method.GET);
             request.AddHeader("Authorization", $"Bearer {_session.Tokens.AccessToken}");
             request.AddHeader("Content-type", "application/json");
             var content = _restClient.Execute(request).Content;

@@ -10,7 +10,6 @@ namespace ServicesLibrary.Services
 {
     public class GroupService
     {
-        // "http://localhost/chats/groups/"
         private static readonly string Route = $"{ApiRoute}/{Chats}/{Groups}/";
         private readonly RestClient _restClient = new RestClient(Route);
         private readonly Session _session;

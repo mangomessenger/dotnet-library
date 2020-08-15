@@ -4,6 +4,7 @@ using ServicesLibrary.Exceptions.Auth;
 using ServicesLibrary.Interfaces;
 using ServicesLibrary.Models;
 using ServicesLibrary.Models.Payload;
+using ServicesLibrary.Routes;
 using static ServicesLibrary.Routes.ApiRoutes;
 using static ServicesLibrary.Routes.AuthRoutes;
 using static ServicesLibrary.Validators.AuthServiceValidator;
@@ -22,7 +23,7 @@ namespace ServicesLibrary.Services
         private static readonly string Route = $"{ApiRoute}/{AuthRoute}/";
         private readonly RestClient _restClient = new RestClient(Route);
 
-        
+
         /// <summary>
         /// 
         /// POST: Sends the verification code for register / login
@@ -41,7 +42,7 @@ namespace ServicesLibrary.Services
             if (!FingerprintIsValid(payload.Fingerprint))
                 throw new InvalidFingerprintFormatException("Fingerprint length must be 5 or more digits");
 
-            var request = new RestRequest(Route + "send-code", Method.POST);
+            var request = new RestRequest(Route + AuthRoutes.SendCode, Method.POST);
             request.AddHeader("Content-type", "application/json");
             request.AddJsonBody(JsonConvert.SerializeObject(payload));
             var content = _restClient.Execute(request).Content;
@@ -60,7 +61,7 @@ namespace ServicesLibrary.Services
             if (!TermsOfServicesAccepted(payload))
                 throw new TermsOfServiceNotAcceptedException("Accept terms of services in order to sign up");
 
-            var request = new RestRequest(Route + "register", Method.POST);
+            var request = new RestRequest(Route + AuthRoutes.Register, Method.POST);
             request.AddHeader("Content-type", "application/json");
             request.AddJsonBody(JsonConvert.SerializeObject(payload));
             var content = _restClient.Execute(request).Content;
@@ -76,7 +77,7 @@ namespace ServicesLibrary.Services
         /// </summary>
         public Session Login(LoginPayload payload)
         {
-            var request = new RestRequest(Route + "login", Method.POST);
+            var request = new RestRequest(Route + AuthRoutes.Login, Method.POST);
             request.AddHeader("Content-type", "application/json");
             request.AddJsonBody(JsonConvert.SerializeObject(payload));
             var content = _restClient.Execute(request).Content;
@@ -92,7 +93,7 @@ namespace ServicesLibrary.Services
         /// </summary>
         public string Logout(Session session)
         {
-            var request = new RestRequest(Route + "logout", Method.POST);
+            var request = new RestRequest(Route + AuthRoutes.Logout, Method.POST);
             request.AddHeader("Content-type", "application/json");
             request.AddJsonBody(JsonConvert.SerializeObject(session.Tokens));
             var response = _restClient.Execute(request).Content;
@@ -106,9 +107,9 @@ namespace ServicesLibrary.Services
         /// https://mangomessenger.com/methods/post/auth.refresh-tokens
         /// 
         /// </summary>
-        public Tokens RefreshToken(RefreshTokensPayload payload)
+        public Tokens RefreshTokens(RefreshTokensPayload payload)
         {
-            var request = new RestRequest(Route + "refresh-tokens", Method.POST);
+            var request = new RestRequest(Route + AuthRoutes.RefreshTokens, Method.POST);
             request.AddHeader("Content-type", "application/json");
             request.AddJsonBody(JsonConvert.SerializeObject(payload));
             var content = _restClient.Execute(request).Content;
