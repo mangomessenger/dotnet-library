@@ -4,15 +4,15 @@ using ServicesLibrary.Models;
 using ServicesLibrary.Models.Chat;
 using ServicesLibrary.Models.Payload;
 using ServicesLibrary.Requests;
-using static ServicesLibrary.Routes.ApiRoutes;
-using static ServicesLibrary.Routes.ChatRoutes;
+using static ServicesLibrary.Routes.ApiRoute;
+using static ServicesLibrary.Routes.ChatRoute;
 
 namespace ServicesLibrary.Services
 {
     public class ChannelService
     {
         // "http://localhost/chats/channels/"
-        private static readonly string Route = $"{ApiRoute}/{Chats}/{Channels}/";
+        private static readonly string Route = $"{ApiRoot}/{Chats}/{Channels}/";
         private readonly RestClient _restClient = new RestClient(Route);
         private readonly Session _session;
 
@@ -30,7 +30,7 @@ namespace ServicesLibrary.Services
         /// </summary>
         public Channel CreateChannel(CreateCommunityPayload payload)
         {
-            var request = ApiRequests.Post(_session);
+            var request = ApiRequest.Post(_session);
             request.AddJsonBody(JsonConvert.SerializeObject(payload));
             var content = _restClient.Execute(request).Content;
             return JsonConvert.DeserializeObject<Channel>(content);

@@ -6,8 +6,8 @@ using ServicesLibrary.Models;
 using ServicesLibrary.Models.Payload;
 using ServicesLibrary.Requests;
 using ServicesLibrary.Routes;
-using static ServicesLibrary.Routes.ApiRoutes;
-using static ServicesLibrary.Routes.AuthRoutes;
+using static ServicesLibrary.Routes.ApiRoute;
+using static ServicesLibrary.Routes.AuthRoute;
 using static ServicesLibrary.Validators.AuthServiceValidator;
 
 namespace ServicesLibrary.Services
@@ -21,7 +21,7 @@ namespace ServicesLibrary.Services
     /// </summary>
     public class AuthService : IAuthService
     {
-        private static readonly string Route = $"{ApiRoute}/{AuthRoute}/";
+        private static readonly string Route = $"{ApiRoute.ApiRoot}/{Auth}/";
         private readonly RestClient _restClient = new RestClient(Route);
 
 
@@ -43,7 +43,7 @@ namespace ServicesLibrary.Services
             if (!FingerprintIsValid(payload.Fingerprint))
                 throw new InvalidFingerprintFormatException("Fingerprint length must be 5 or more digits");
 
-            var request = ApiRequests.Post(Route + AuthRoutes.SendCode);
+            var request = ApiRequest.Post(Route + AuthRoute.SendCode);
             request.AddJsonBody(JsonConvert.SerializeObject(payload));
             var content = _restClient.Execute(request).Content;
             return JsonConvert.DeserializeObject<AuthRequest>(content);
@@ -61,7 +61,7 @@ namespace ServicesLibrary.Services
             if (!TermsOfServicesAccepted(payload))
                 throw new TermsOfServiceNotAcceptedException("Accept terms of services in order to sign up");
 
-            var request = ApiRequests.Post(Route + AuthRoutes.Register);
+            var request = ApiRequest.Post(Route + AuthRoute.Register);
             request.AddJsonBody(JsonConvert.SerializeObject(payload));
             var content = _restClient.Execute(request).Content;
             return JsonConvert.DeserializeObject<Session>(content);
@@ -76,7 +76,7 @@ namespace ServicesLibrary.Services
         /// </summary>
         public Session Login(LoginPayload payload)
         {
-            var request = ApiRequests.Post(Route + AuthRoutes.Login);
+            var request = ApiRequest.Post(Route + AuthRoute.Login);
             request.AddJsonBody(JsonConvert.SerializeObject(payload));
             var content = _restClient.Execute(request).Content;
             return JsonConvert.DeserializeObject<Session>(content);
@@ -91,7 +91,7 @@ namespace ServicesLibrary.Services
         /// </summary>
         public string Logout(Session session)
         {
-            var request = ApiRequests.Post(Route + AuthRoutes.Logout);
+            var request = ApiRequest.Post(Route + AuthRoute.Logout);
             request.AddJsonBody(JsonConvert.SerializeObject(session.Tokens));
             var response = _restClient.Execute(request).Content;
             return response;
@@ -106,7 +106,7 @@ namespace ServicesLibrary.Services
         /// </summary>
         public Tokens RefreshTokens(RefreshTokensPayload payload)
         {
-            var request = ApiRequests.Post(Route + AuthRoutes.RefreshTokens);
+            var request = ApiRequest.Post(Route + AuthRoute.RefreshTokens);
             request.AddJsonBody(JsonConvert.SerializeObject(payload));
             var content = _restClient.Execute(request).Content;
             return JsonConvert.DeserializeObject<Tokens>(content);

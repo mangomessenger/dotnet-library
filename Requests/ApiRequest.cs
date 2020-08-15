@@ -3,7 +3,7 @@ using ServicesLibrary.Models;
 
 namespace ServicesLibrary.Requests
 {
-    public static class ApiRequests
+    public static class ApiRequest
     {
         public static RestRequest Post(Session session)
         {

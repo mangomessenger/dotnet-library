@@ -4,14 +4,14 @@ using ServicesLibrary.Models;
 using ServicesLibrary.Models.Chat;
 using ServicesLibrary.Models.Payload;
 using ServicesLibrary.Requests;
-using static ServicesLibrary.Routes.ApiRoutes;
-using static ServicesLibrary.Routes.ChatRoutes;
+using static ServicesLibrary.Routes.ApiRoute;
+using static ServicesLibrary.Routes.ChatRoute;
 
 namespace ServicesLibrary.Services
 {
     public class GroupService
     {
-        private static readonly string Route = $"{ApiRoute}/{Chats}/{Groups}/";
+        private static readonly string Route = $"{ApiRoot}/{Chats}/{Groups}/";
         private readonly RestClient _restClient = new RestClient(Route);
         private readonly Session _session;
 
@@ -29,7 +29,7 @@ namespace ServicesLibrary.Services
         /// </summary>
         public Group CreateGroup(CreateCommunityPayload payload)
         {
-            var request = ApiRequests.Post(_session);
+            var request = ApiRequest.Post(_session);
             request.AddJsonBody(JsonConvert.SerializeObject(payload));
             var content = _restClient.Execute(request).Content;
             return JsonConvert.DeserializeObject<Group>(content);

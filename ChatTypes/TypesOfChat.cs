@@ -2,8 +2,8 @@
 {
     public static class TypesOfChat
     {
-        public static string DirectChat => "direct-chat";
-        public static string Channel => "channel";
-        public static string Group => "group";
+        public const string DirectChat = "direct-chat";
+        public const string Channel = "channel";
+        public const string Group = "group";
     }
 }

@@ -1,8 +1,8 @@
 ﻿namespace ServicesLibrary.Routes
 {
-    public static class AuthRoutes
+    public static class AuthRoute
     {
-        public const string AuthRoute = "auth";
+        public const string Auth = "auth";
         public const string SendCode = "send-code";
         public const string Register = "register";
         public const string Login = "login";
