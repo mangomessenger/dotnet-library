@@ -19,5 +19,18 @@ namespace ServicesLibrary.Requests
 
             return request;
         }
+
+        public static HttpRequestMessage Get(string route, object body)
+        {
+            var payload = JsonConvert.SerializeObject(body);
+            var request = new HttpRequestMessage
+            {
+                Method = HttpMethod.Get,
+                RequestUri = new Uri(route),
+                Content = new StringContent(payload, Encoding.Default, "application/json")
+            };
+
+            return request;
+        }
     }
 }

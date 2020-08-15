@@ -9,7 +9,6 @@ using ServicesLibrary.Requests;
 using ServicesLibrary.Routes;
 using static ServicesLibrary.Routes.ApiRoute;
 using static ServicesLibrary.Routes.AuthRoute;
-using RestRequest = ServicesLibrary.Requests.RestRequest;
 
 namespace ServicesLibrary.Services
 {
@@ -21,7 +20,7 @@ namespace ServicesLibrary.Services
 
         public AuthRequest SendCode(SendCodePayload payload)
         {
-            var request = RestRequest.Post(Route + AuthRoute.SendCode);
+            var request = RestSharpRequest.Post(Route + AuthRoute.SendCode);
             request.AddJsonBody(JsonConvert.SerializeObject(payload));
             var content = _restClient.Execute(request).Content;
             return JsonConvert.DeserializeObject<AuthRequest>(content);
@@ -40,7 +39,7 @@ namespace ServicesLibrary.Services
 
         public Session Register(RegisterPayload payload)
         {
-            var request = RestRequest.Post(Route + AuthRoute.Register);
+            var request = RestSharpRequest.Post(Route + AuthRoute.Register);
             request.AddJsonBody(JsonConvert.SerializeObject(payload));
             var content = _restClient.Execute(request).Content;
             return JsonConvert.DeserializeObject<Session>(content);
@@ -59,7 +58,7 @@ namespace ServicesLibrary.Services
 
         public Session Login(LoginPayload payload)
         {
-            var request = RestRequest.Post(Route + AuthRoute.Login);
+            var request = RestSharpRequest.Post(Route + AuthRoute.Login);
             request.AddJsonBody(JsonConvert.SerializeObject(payload));
             var content = _restClient.Execute(request).Content;
             return JsonConvert.DeserializeObject<Session>(content);
@@ -78,7 +77,7 @@ namespace ServicesLibrary.Services
 
         public string Logout(Session session)
         {
-            var request = RestRequest.Post(Route + AuthRoute.Logout);
+            var request = RestSharpRequest.Post(Route + AuthRoute.Logout);
             request.AddJsonBody(JsonConvert.SerializeObject(session.Tokens));
             var response = _restClient.Execute(request).Content;
             return response;
@@ -97,7 +96,7 @@ namespace ServicesLibrary.Services
 
         public Tokens RefreshTokens(RefreshTokensPayload payload)
         {
-            var request = RestRequest.Post(Route + AuthRoute.RefreshTokens);
+            var request = RestSharpRequest.Post(Route + AuthRoute.RefreshTokens);
             request.AddJsonBody(JsonConvert.SerializeObject(payload));
             var content = _restClient.Execute(request).Content;
             return JsonConvert.DeserializeObject<Tokens>(content);
