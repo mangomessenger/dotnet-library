@@ -3,6 +3,7 @@ using RestSharp;
 using ServicesLibrary.Models;
 using ServicesLibrary.Models.Chat;
 using ServicesLibrary.Models.Payload;
+using ServicesLibrary.Requests;
 using static ServicesLibrary.Routes.ApiRoutes;
 using static ServicesLibrary.Routes.ChatRoutes;
 
@@ -29,9 +30,7 @@ namespace ServicesLibrary.Services
         /// </summary>
         public DirectChat CreateDirectChat(CreateDirectChatPayload payload)
         {
-            var request = new RestRequest(Method.POST);
-            request.AddHeader("Authorization", $"Bearer {_session.Tokens.AccessToken}");
-            request.AddHeader("Content-type", "application/json");
+            var request = PostRequests.AuthorizedPostRequest(_session);
             request.AddJsonBody(JsonConvert.SerializeObject(payload));
             var content = _restClient.Execute(request).Content;
             return JsonConvert.DeserializeObject<DirectChat>(content);
