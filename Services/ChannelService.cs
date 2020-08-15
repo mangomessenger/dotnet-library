@@ -40,10 +40,7 @@ namespace ServicesLibrary.Services
 
         public async Task<Channel> CreateChatAsync(CreateCommunityPayload payload)
         {
-            var json = JsonConvert.SerializeObject(payload);
-            var uri = new Uri(Route);
-            var data = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = await _httpClient.PostAsync(uri, data);
+            var response = await HttpRequest.Post(_httpClient, Route, payload);
             response.EnsureSuccessStatusCode();
             var responseBody = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<Channel>(responseBody);

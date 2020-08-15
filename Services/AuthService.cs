@@ -1,6 +1,4 @@
-﻿using System;
-using System.Net.Http;
-using System.Text;
+﻿using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using RestSharp;
@@ -30,10 +28,7 @@ namespace ServicesLibrary.Services
 
         public async Task<AuthRequest> SendCodeAsync(SendCodePayload payload)
         {
-            var json = JsonConvert.SerializeObject(payload);
-            var uri = new Uri(Route + AuthRoute.SendCode);
-            var data = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = await _httpClient.PostAsync(uri, data);
+            var response = await HttpRequest.Post(_httpClient, Route + AuthRoute.SendCode, payload);
             response.EnsureSuccessStatusCode();
             var responseBody = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<AuthRequest>(responseBody);
@@ -49,10 +44,7 @@ namespace ServicesLibrary.Services
 
         public async Task<Session> RegisterAsync(RegisterPayload payload)
         {
-            var json = JsonConvert.SerializeObject(payload);
-            var uri = new Uri(Route + AuthRoute.Register);
-            var data = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = await _httpClient.PostAsync(uri, data);
+            var response = await HttpRequest.Post(_httpClient, Route + AuthRoute.Register, payload);
             response.EnsureSuccessStatusCode();
             var responseBody = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<Session>(responseBody);
@@ -68,10 +60,7 @@ namespace ServicesLibrary.Services
 
         public async Task<Session> LoginAsync(LoginPayload payload)
         {
-            var json = JsonConvert.SerializeObject(payload);
-            var uri = new Uri(Route + AuthRoute.Login);
-            var data = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = await _httpClient.PostAsync(uri, data);
+            var response = await HttpRequest.Post(_httpClient, Route + AuthRoute.Login, payload);
             response.EnsureSuccessStatusCode();
             var responseBody = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<Session>(responseBody);
@@ -87,10 +76,7 @@ namespace ServicesLibrary.Services
 
         public async Task<string> LogoutAsync(Session session)
         {
-            var json = JsonConvert.SerializeObject(session.Tokens);
-            var uri = new Uri(Route + AuthRoute.Logout);
-            var data = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = await _httpClient.PostAsync(uri, data);
+            var response = await HttpRequest.Post(_httpClient, Route + AuthRoute.Logout, session.Tokens);
             response.EnsureSuccessStatusCode();
             var responseBody = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<string>(responseBody);
@@ -106,10 +92,7 @@ namespace ServicesLibrary.Services
 
         public async Task<Tokens> RefreshTokensAsync(RefreshTokensPayload payload)
         {
-            var json = JsonConvert.SerializeObject(payload);
-            var uri = new Uri(Route + AuthRoute.RefreshTokens);
-            var data = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = await _httpClient.PostAsync(uri, data);
+            var response = await HttpRequest.Post(_httpClient, Route + AuthRoute.RefreshTokens, payload);
             response.EnsureSuccessStatusCode();
             var responseBody = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<Tokens>(responseBody);
