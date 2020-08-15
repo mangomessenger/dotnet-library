@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using RestSharp;
 using ServicesLibrary.Interfaces;
 using ServicesLibrary.Interfaces.Chat;
 using ServicesLibrary.Models;
@@ -19,39 +17,20 @@ namespace ServicesLibrary.Services
     {
         // "http://localhost/messages/"
         private static readonly string Route = $"{ApiRoot}/{Messages}/";
-        private readonly RestClient _restClient = new RestClient(Route);
         private readonly HttpClient _httpClient = new HttpClient();
-        private readonly Session _session;
 
         public MessageService(Session session)
         {
-            _session = session;
             _httpClient.DefaultRequestHeaders.Authorization
-                = new AuthenticationHeaderValue("Bearer", _session.Tokens.AccessToken);
-        }
-
-        public Message GetMessageById(int messageId)
-        {
-            var request = RestSharpRequest.Get(Route + messageId, _session);
-            var content = _restClient.Execute(request).Content;
-            return JsonConvert.DeserializeObject<Message>(content);
+                = new AuthenticationHeaderValue("Bearer", session.Tokens.AccessToken);
         }
 
         public async Task<Message> GetMessageByIdAsync(int messageId)
         {
-            var uri = new Uri(Route + messageId);
-            var response = await _httpClient.GetAsync(uri);
+            var response = await HttpRequest.Get(_httpClient, Route + messageId);
             response.EnsureSuccessStatusCode();
             var responseBody = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<Message>(responseBody);
-        }
-
-        public List<Message> GetMessages(IChat chat)
-        {
-            var request = RestSharpRequest.Get(_session);
-            request.AddJsonBody(JsonConvert.SerializeObject(chat));
-            var response = _restClient.Execute(request).Content;
-            return JsonConvert.DeserializeObject<List<Message>>(response);
         }
 
         public async Task<List<Message>> GetMessagesAsync(IChat chat)
@@ -67,15 +46,6 @@ namespace ServicesLibrary.Services
             return JsonConvert.DeserializeObject<List<Message>>(responseBody);
         }
 
-        public Message SendMessage(IChat chat, string text)
-        {
-            var messagePayload = new SendMessagePayload(chat.Id, chat.ChatType, text);
-            var request = RestSharpRequest.Post(_session);
-            request.AddJsonBody(JsonConvert.SerializeObject(messagePayload));
-            var content = _restClient.Execute(request).Content;
-            return JsonConvert.DeserializeObject<Message>(content);
-        }
-
         public async Task<Message> SendMessageAsync(IChat chat, string text)
         {
             var messagePayload = new SendMessagePayload(chat.Id, chat.ChatType, text);
@@ -85,15 +55,6 @@ namespace ServicesLibrary.Services
             return JsonConvert.DeserializeObject<Message>(responseBody);
         }
 
-        public string UpdateMessage(Message message, string updatedText)
-        {
-            var request = RestSharpRequest.Put(Route + message.Id, _session);
-            var payload = new UpdateMessagePayload {Message = updatedText};
-            request.AddJsonBody(JsonConvert.SerializeObject(payload));
-            var response = _restClient.Execute(request).Content;
-            return response;
-        }
-
         public async Task<string> UpdateMessageAsync(Message message, string updatedText)
         {
             var body = new UpdateMessagePayload {Message = updatedText};
@@ -101,13 +62,6 @@ namespace ServicesLibrary.Services
             response.EnsureSuccessStatusCode();
             var responseBody = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<string>(responseBody);
-        }
-
-        public string DeleteMessage(Message message)
-        {
-            var request = RestSharpRequest.Delete(Route + message.Id, _session);
-            var response = _restClient.Execute(request).Content;
-            return response;
         }
 
         public async Task<string> DeleteMessageAsync(Message message)

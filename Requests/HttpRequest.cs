@@ -21,30 +21,6 @@ namespace ServicesLibrary.Requests
             return request;
         }
 
-        public static HttpRequestMessage Put(string route, object body)
-        {
-            var payload = JsonConvert.SerializeObject(body);
-            var request = new HttpRequestMessage
-            {
-                Method = HttpMethod.Put,
-                RequestUri = new Uri(route),
-                Content = new StringContent(payload, Encoding.Default, "application/json")
-            };
-
-            return request;
-        }
-
-        public static HttpRequestMessage Delete(string route)
-        {
-            var request = new HttpRequestMessage
-            {
-                Method = HttpMethod.Delete,
-                RequestUri = new Uri(route)
-            };
-
-            return request;
-        }
-
         public static async Task<HttpResponseMessage> Post(HttpClient client, string route, object body)
         {
             var json = JsonConvert.SerializeObject(body);
@@ -67,6 +43,13 @@ namespace ServicesLibrary.Requests
         {
             var uri = new Uri(route);
             var response = await client.DeleteAsync(uri);
+            return response;
+        }
+        
+        public static async Task<HttpResponseMessage> Get(HttpClient client, string route)
+        {
+            var uri = new Uri(route);
+            var response = await client.GetAsync(uri);
             return response;
         }
     }
