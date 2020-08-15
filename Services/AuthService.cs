@@ -1,4 +1,6 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using RestSharp;
@@ -28,12 +30,12 @@ namespace ServicesLibrary.Services
 
         public async Task<AuthRequest> SendCodeAsync(SendCodePayload payload)
         {
-            var request = HttpRequest.Post(Route + AuthRoute.SendCode, payload);
-            var response = await _httpClient.SendAsync(request).ConfigureAwait(false);
+            var json = JsonConvert.SerializeObject(payload);
+            var uri = new Uri(Route + AuthRoute.SendCode);
+            var data = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync(uri, data);
             response.EnsureSuccessStatusCode();
-            var responseBody = await response.Content.ReadAsStringAsync()
-                .ConfigureAwait(false);
-
+            var responseBody = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<AuthRequest>(responseBody);
         }
 
@@ -47,12 +49,12 @@ namespace ServicesLibrary.Services
 
         public async Task<Session> RegisterAsync(RegisterPayload payload)
         {
-            var request = HttpRequest.Post(Route + AuthRoute.Register, payload);
-            var response = await _httpClient.SendAsync(request).ConfigureAwait(false);
+            var json = JsonConvert.SerializeObject(payload);
+            var uri = new Uri(Route + AuthRoute.Register);
+            var data = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync(uri, data);
             response.EnsureSuccessStatusCode();
-            var responseBody = await response.Content.ReadAsStringAsync()
-                .ConfigureAwait(false);
-
+            var responseBody = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<Session>(responseBody);
         }
 
@@ -66,12 +68,12 @@ namespace ServicesLibrary.Services
 
         public async Task<Session> LoginAsync(LoginPayload payload)
         {
-            var request = HttpRequest.Post(Route + AuthRoute.Login, payload);
-            var response = await _httpClient.SendAsync(request).ConfigureAwait(false);
+            var json = JsonConvert.SerializeObject(payload);
+            var uri = new Uri(Route + AuthRoute.Login);
+            var data = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync(uri, data);
             response.EnsureSuccessStatusCode();
-            var responseBody = await response.Content.ReadAsStringAsync()
-                .ConfigureAwait(false);
-
+            var responseBody = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<Session>(responseBody);
         }
 
@@ -85,12 +87,12 @@ namespace ServicesLibrary.Services
 
         public async Task<string> LogoutAsync(Session session)
         {
-            var request = HttpRequest.Post(Route + AuthRoute.Logout, session.Tokens);
-            var response = await _httpClient.SendAsync(request).ConfigureAwait(false);
+            var json = JsonConvert.SerializeObject(session.Tokens);
+            var uri = new Uri(Route + AuthRoute.Logout);
+            var data = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync(uri, data);
             response.EnsureSuccessStatusCode();
-            var responseBody = await response.Content.ReadAsStringAsync()
-                .ConfigureAwait(false);
-
+            var responseBody = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<string>(responseBody);
         }
 
@@ -104,12 +106,12 @@ namespace ServicesLibrary.Services
 
         public async Task<Tokens> RefreshTokensAsync(RefreshTokensPayload payload)
         {
-            var request = HttpRequest.Post(Route + AuthRoute.RefreshTokens, payload);
-            var response = await _httpClient.SendAsync(request).ConfigureAwait(false);
+            var json = JsonConvert.SerializeObject(payload);
+            var uri = new Uri(Route + AuthRoute.RefreshTokens);
+            var data = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync(uri, data);
             response.EnsureSuccessStatusCode();
-            var responseBody = await response.Content.ReadAsStringAsync()
-                .ConfigureAwait(false);
-
+            var responseBody = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<Tokens>(responseBody);
         }
     }

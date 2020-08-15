@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -82,7 +81,7 @@ namespace ServicesLibrary.Services
         {
             var messagePayload = new SendMessagePayload(chat.Id, chat.ChatType, text);
             var request = HttpRequest.Post(Route, messagePayload);
-            
+
             var response = await _httpClient.SendAsync(request).ConfigureAwait(false);
             response.EnsureSuccessStatusCode();
 
@@ -121,9 +120,16 @@ namespace ServicesLibrary.Services
             return response;
         }
 
-        public Task<string> DeleteMessageAsync(Message message)
+        public async Task<string> DeleteMessageAsync(Message message)
         {
-            throw new NotImplementedException();
+            var request = HttpRequest.Delete(Route + message.Id);
+            var response = await _httpClient.SendAsync(request).ConfigureAwait(false);
+            response.EnsureSuccessStatusCode();
+
+            var responseBody = await response.Content.ReadAsStringAsync()
+                .ConfigureAwait(false);
+
+            return JsonConvert.DeserializeObject<string>(responseBody);
         }
     }
 }

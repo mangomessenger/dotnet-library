@@ -4,13 +4,6 @@ using ServicesLibrary.Models.Payload;
 
 namespace ServicesLibrary.Interfaces
 {
-    /// <summary>
-    /// 
-    /// Public contract of authorization endpoints of the API: auth/sendCode, auth/signIn, auth/signUp
-    /// 
-    /// See https://mangomessenger.com/methods
-    /// 
-    /// </summary>
     public interface IAuthService
     {
         AuthRequest SendCode(SendCodePayload payload);

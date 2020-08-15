@@ -1,5 +1,7 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using RestSharp;
@@ -38,12 +40,12 @@ namespace ServicesLibrary.Services
 
         public async Task<DirectChat> CreateChatAsync(CreateDirectChatPayload payload)
         {
-            var request = HttpRequest.Post(Route, payload);
-            var response = await _httpClient.SendAsync(request).ConfigureAwait(false);
+            var json = JsonConvert.SerializeObject(payload);
+            var uri = new Uri(Route);
+            var data = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync(uri, data);
             response.EnsureSuccessStatusCode();
-            var responseBody = await response.Content.ReadAsStringAsync()
-                .ConfigureAwait(false);
-
+            var responseBody = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<DirectChat>(responseBody);
         }
     }
