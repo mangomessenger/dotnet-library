@@ -28,48 +28,34 @@ namespace ServicesLibrary.Services
         public async Task<Message> GetMessageByIdAsync(int messageId)
         {
             var response = await HttpRequest.Get(_httpClient, Route + messageId);
-            response.EnsureSuccessStatusCode();
-            var responseBody = await response.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<Message>(responseBody);
+            return JsonConvert.DeserializeObject<Message>(response);
         }
 
         public async Task<List<Message>> GetMessagesAsync(IChat chat)
         {
             var model = new GetChatMessagesPayload(chat.Id, chat.ChatType);
-            var request = HttpRequest.Get(Route, model);
-            var response = await _httpClient.SendAsync(request).ConfigureAwait(false);
-            response.EnsureSuccessStatusCode();
-
-            var responseBody = await response.Content.ReadAsStringAsync()
-                .ConfigureAwait(false);
-
-            return JsonConvert.DeserializeObject<List<Message>>(responseBody);
+            var response = await HttpRequest.Get(_httpClient, Route, model);
+            return JsonConvert.DeserializeObject<List<Message>>(response);
         }
 
         public async Task<Message> SendMessageAsync(IChat chat, string text)
         {
-            var messagePayload = new SendMessagePayload(chat.Id, chat.ChatType, text);
-            var response = await HttpRequest.Post(_httpClient, Route, messagePayload);
-            response.EnsureSuccessStatusCode();
-            var responseBody = await response.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<Message>(responseBody);
+            var body = new SendMessagePayload(chat.Id, chat.ChatType, text);
+            var response = await HttpRequest.Post(_httpClient, Route, body);
+            return JsonConvert.DeserializeObject<Message>(response);
         }
 
         public async Task<string> UpdateMessageAsync(Message message, string updatedText)
         {
             var body = new UpdateMessagePayload {Message = updatedText};
             var response = await HttpRequest.Put(_httpClient, Route + message.Id, body);
-            response.EnsureSuccessStatusCode();
-            var responseBody = await response.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<string>(responseBody);
+            return JsonConvert.DeserializeObject<string>(response);
         }
 
         public async Task<string> DeleteMessageAsync(Message message)
         {
             var response = await HttpRequest.Delete(_httpClient, Route + message.Id);
-            response.EnsureSuccessStatusCode();
-            var responseBody = await response.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<string>(responseBody);
+            return JsonConvert.DeserializeObject<string>(response);
         }
     }
 }

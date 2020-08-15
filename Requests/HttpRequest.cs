@@ -8,7 +8,7 @@ namespace ServicesLibrary.Requests
 {
     public static class HttpRequest
     {
-        public static HttpRequestMessage Get(string route, object body)
+        private static HttpRequestMessage Get(string route, object body)
         {
             var payload = JsonConvert.SerializeObject(body);
             var request = new HttpRequestMessage
@@ -21,36 +21,55 @@ namespace ServicesLibrary.Requests
             return request;
         }
 
-        public static async Task<HttpResponseMessage> Post(HttpClient client, string route, object body)
+        public static async Task<string> Get(HttpClient httpClient, string route, object model)
+        {
+            var request = Get(route, model);
+            var response = await httpClient.SendAsync(request).ConfigureAwait(false);
+            response.EnsureSuccessStatusCode();
+
+            var responseBody = await response.Content.ReadAsStringAsync()
+                .ConfigureAwait(false);
+            return responseBody;
+        }
+
+        public static async Task<string> Post(HttpClient client, string route, object body)
         {
             var json = JsonConvert.SerializeObject(body);
             var uri = new Uri(route);
             var data = new StringContent(json, Encoding.UTF8, "application/json");
             var response = await client.PostAsync(uri, data);
-            return response;
+            response.EnsureSuccessStatusCode();
+            var responseBody = await response.Content.ReadAsStringAsync();
+            return responseBody;
         }
-        
-        public static async Task<HttpResponseMessage> Put(HttpClient client, string route, object body)
+
+        public static async Task<string> Put(HttpClient client, string route, object body)
         {
             var json = JsonConvert.SerializeObject(body);
             var uri = new Uri(route);
             var data = new StringContent(json, Encoding.UTF8, "application/json");
             var response = await client.PutAsync(uri, data);
-            return response;
+            response.EnsureSuccessStatusCode();
+            var responseBody = await response.Content.ReadAsStringAsync();
+            return responseBody;
         }
-        
-        public static async Task<HttpResponseMessage> Delete(HttpClient client, string route)
+
+        public static async Task<string> Delete(HttpClient client, string route)
         {
             var uri = new Uri(route);
             var response = await client.DeleteAsync(uri);
-            return response;
+            response.EnsureSuccessStatusCode();
+            var responseBody = await response.Content.ReadAsStringAsync();
+            return responseBody;
         }
-        
-        public static async Task<HttpResponseMessage> Get(HttpClient client, string route)
+
+        public static async Task<string> Get(HttpClient client, string route)
         {
             var uri = new Uri(route);
             var response = await client.GetAsync(uri);
-            return response;
+            response.EnsureSuccessStatusCode();
+            var responseBody = await response.Content.ReadAsStringAsync();
+            return responseBody;
         }
     }
 }

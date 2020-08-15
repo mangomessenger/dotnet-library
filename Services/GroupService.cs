@@ -26,9 +26,7 @@ namespace ServicesLibrary.Services
         public async Task<Group> CreateChatAsync(CreateCommunityPayload payload)
         {
             var response = await HttpRequest.Post(_httpClient, Route, payload);
-            response.EnsureSuccessStatusCode();
-            var responseBody = await response.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<Group>(responseBody);
+            return JsonConvert.DeserializeObject<Group>(response);
         }
     }
 }

@@ -18,41 +18,31 @@ namespace ServicesLibrary.Services
         public async Task<AuthRequest> SendCodeAsync(SendCodePayload payload)
         {
             var response = await HttpRequest.Post(_httpClient, Route + SendCode, payload);
-            response.EnsureSuccessStatusCode();
-            var responseBody = await response.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<AuthRequest>(responseBody);
+            return JsonConvert.DeserializeObject<AuthRequest>(response);
         }
 
         public async Task<Session> RegisterAsync(RegisterPayload payload)
         {
             var response = await HttpRequest.Post(_httpClient, Route + Register, payload);
-            response.EnsureSuccessStatusCode();
-            var responseBody = await response.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<Session>(responseBody);
+            return JsonConvert.DeserializeObject<Session>(response);
         }
 
         public async Task<Session> LoginAsync(LoginPayload payload)
         {
             var response = await HttpRequest.Post(_httpClient, Route + Login, payload);
-            response.EnsureSuccessStatusCode();
-            var responseBody = await response.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<Session>(responseBody);
+            return JsonConvert.DeserializeObject<Session>(response);
         }
 
         public async Task<string> LogoutAsync(Session session)
         {
             var response = await HttpRequest.Post(_httpClient, Route + Logout, session.Tokens);
-            response.EnsureSuccessStatusCode();
-            var responseBody = await response.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<string>(responseBody);
+            return JsonConvert.DeserializeObject<string>(response);
         }
 
         public async Task<Tokens> RefreshTokensAsync(RefreshTokensPayload payload)
         {
             var response = await HttpRequest.Post(_httpClient, Route + RefreshTokens, payload);
-            response.EnsureSuccessStatusCode();
-            var responseBody = await response.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<Tokens>(responseBody);
+            return JsonConvert.DeserializeObject<Tokens>(response);
         }
     }
 }
