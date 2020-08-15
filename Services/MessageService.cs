@@ -13,6 +13,7 @@ using ServicesLibrary.Models.Payload;
 using ServicesLibrary.Requests;
 using static ServicesLibrary.Routes.ApiRoute;
 using static ServicesLibrary.Routes.MessageRoute;
+using RestRequest = ServicesLibrary.Requests.RestRequest;
 
 namespace ServicesLibrary.Services
 {
@@ -39,7 +40,7 @@ namespace ServicesLibrary.Services
         /// </summary>
         public Message GetMessageById(int messageId)
         {
-            var request = ApiRequest.Get(Route + messageId, _session);
+            var request = RestRequest.Get(Route + messageId, _session);
             var content = _restClient.Execute(request).Content;
             return JsonConvert.DeserializeObject<Message>(content);
         }
@@ -52,7 +53,7 @@ namespace ServicesLibrary.Services
         /// <returns>Enum of messages of chat by chat id</returns>
         public List<Message> GetMessages(IChat chat, out string response)
         {
-            var request = ApiRequest.Get(_session);
+            var request = RestRequest.Get(_session);
             request.AddJsonBody(JsonConvert.SerializeObject(chat));
             response = _restClient.Execute(request).Content;
             return JsonConvert.DeserializeObject<List<Message>>(response);
@@ -85,7 +86,7 @@ namespace ServicesLibrary.Services
         public Message SendMessage(IChat chat, string text)
         {
             var messagePayload = new SendMessagePayload(chat.Id, chat.ChatType, text);
-            var request = ApiRequest.Post(_session);
+            var request = RestRequest.Post(_session);
             request.AddJsonBody(JsonConvert.SerializeObject(messagePayload));
             var content = _restClient.Execute(request).Content;
             return JsonConvert.DeserializeObject<Message>(content);
@@ -98,7 +99,7 @@ namespace ServicesLibrary.Services
         /// </summary>
         public string UpdateMessage(Message message, string updatedText)
         {
-            var request = ApiRequest.Put(Route + message.Id, _session);
+            var request = RestRequest.Put(Route + message.Id, _session);
             var payload = new UpdateMessagePayload {Message = updatedText};
             request.AddJsonBody(JsonConvert.SerializeObject(payload));
             var response = _restClient.Execute(request).Content;
@@ -112,7 +113,7 @@ namespace ServicesLibrary.Services
         /// </summary>
         public string DeleteMessage(Message message)
         {
-            var request = ApiRequest.Delete(Route + message.Id, _session);
+            var request = RestRequest.Delete(Route + message.Id, _session);
             var response = _restClient.Execute(request).Content;
             return response;
         }

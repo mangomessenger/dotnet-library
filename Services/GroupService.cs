@@ -6,6 +6,7 @@ using ServicesLibrary.Models.Payload;
 using ServicesLibrary.Requests;
 using static ServicesLibrary.Routes.ApiRoute;
 using static ServicesLibrary.Routes.ChatRoute;
+using RestRequest = ServicesLibrary.Requests.RestRequest;
 
 namespace ServicesLibrary.Services
 {
@@ -29,7 +30,7 @@ namespace ServicesLibrary.Services
         /// </summary>
         public Group CreateGroup(CreateCommunityPayload payload)
         {
-            var request = ApiRequest.Post(_session);
+            var request = RestRequest.Post(_session);
             request.AddJsonBody(JsonConvert.SerializeObject(payload));
             var content = _restClient.Execute(request).Content;
             return JsonConvert.DeserializeObject<Group>(content);

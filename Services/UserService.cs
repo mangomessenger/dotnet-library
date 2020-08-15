@@ -4,6 +4,7 @@ using ServicesLibrary.Models;
 using ServicesLibrary.Requests;
 using static ServicesLibrary.Routes.ApiRoute;
 using static ServicesLibrary.Routes.UserRoute;
+using RestRequest = ServicesLibrary.Requests.RestRequest;
 
 namespace ServicesLibrary.Services
 {
@@ -26,7 +27,7 @@ namespace ServicesLibrary.Services
         /// </summary>
         public User GetUserInfo(string username)
         {
-            var request = ApiRequest.Get(Route + username, _session);
+            var request = RestRequest.Get(Route + username, _session);
             var response = _restClient.Execute(request).Content;
             return JsonConvert.DeserializeObject<User>(response);
         }

@@ -1,4 +1,5 @@
-﻿using ServicesLibrary.Models;
+﻿using System.Threading.Tasks;
+using ServicesLibrary.Models;
 using ServicesLibrary.Models.Payload;
 
 namespace ServicesLibrary.Interfaces
@@ -12,49 +13,15 @@ namespace ServicesLibrary.Interfaces
     /// </summary>
     public interface IAuthService
     {
-        /// <summary>
-        /// 
-        /// POST: Sends the verification code for SignIn / SignUp
-        /// 
-        /// See https://mangomessenger.com/methods/auth.sendCode
-        /// 
-        /// </summary>
         AuthRequest SendCode(SendCodePayload payload);
-
-        /// <summary>
-        /// 
-        /// POST: Registration in messenger
-        /// 
-        /// See https://mangomessenger.com/methods/auth.signUp
-        /// 
-        /// </summary>
+        Task<AuthRequest> SendCodeAsync(SendCodePayload payload);
         Session Register(RegisterPayload payload);
-        
-        /// <summary>
-        /// 
-        /// POST: Login in messenger
-        /// 
-        /// See https://mangomessenger.com/methods/auth.signIn
-        /// 
-        /// </summary>
+        Task<Session> RegisterAsync(RegisterPayload payload);
         Session Login(LoginPayload payload);
-        
-        /// <summary>
-        /// 
-        /// POST: Logs out from messenger
-        /// 
-        /// See https://mangomessenger.com/methods/auth.logout
-        /// 
-        /// </summary>
+        Task<Session> LoginAsync(LoginPayload payload);
         string Logout(Session session);
-        
-        /// <summary>
-        /// 
-        /// POST: Refreshes tokens
-        /// 
-        /// https://mangomessenger.com/methods/auth.refresh-tokens
-        /// 
-        /// </summary>
+        Task<string> LogoutAsync(Session session);
         Tokens RefreshTokens(RefreshTokensPayload payload);
+        Task<Tokens> RefreshTokensAsync(RefreshTokensPayload payload);
     }
 }
