@@ -4,7 +4,6 @@ namespace ServicesLibrary.Models.Payload
 {
     public class CreateDirectChatPayload
     {
-        [JsonProperty("username")]
-        public string Username { get; set; }
+        [JsonProperty("username")] public string Username { get; set; }
     }
 }

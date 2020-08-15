@@ -3,9 +3,6 @@ using Newtonsoft.Json;
 
 namespace ServicesLibrary.Models
 {
-    /// <summary>
-    /// Represents users relation in database
-    /// </summary>
     public class User
     {
         [JsonProperty("id")] public BigInteger Id { get; set; }

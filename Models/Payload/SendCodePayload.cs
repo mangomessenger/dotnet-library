@@ -2,9 +2,6 @@
 
 namespace ServicesLibrary.Models.Payload
 {
-    /// <summary>
-    /// Payload type of POST endpoint: auth/sendCode
-    /// </summary>
     public class SendCodePayload
     {
         [JsonProperty("phone_number")] public string PhoneNumber { get; set; }

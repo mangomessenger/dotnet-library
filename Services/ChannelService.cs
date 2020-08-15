@@ -1,5 +1,8 @@
-﻿using Newtonsoft.Json;
-using RestSharp;
+﻿using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
+using ServicesLibrary.Interfaces;
 using ServicesLibrary.Models;
 using ServicesLibrary.Models.Chat;
 using ServicesLibrary.Models.Payload;
@@ -9,31 +12,24 @@ using static ServicesLibrary.Routes.ChatRoute;
 
 namespace ServicesLibrary.Services
 {
-    public class ChannelService
+    public class ChannelService: IChatService<Channel>
     {
         // "http://localhost/chats/channels/"
         private static readonly string Route = $"{ApiRoot}/{Chats}/{Channels}/";
-        private readonly RestClient _restClient = new RestClient(Route);
-        private readonly Session _session;
+        private readonly HttpClient _httpClient = new HttpClient();
 
         public ChannelService(Session session)
         {
-            _session = session;
+            _httpClient.DefaultRequestHeaders.Authorization
+                = new AuthenticationHeaderValue("Bearer", session.Tokens.AccessToken);
         }
-        
-        /// <summary>
-        /// 
-        /// Creates a new channel.
-        ///
-        /// See https://mangomessenger.com/methods/post/chats.channels
-        /// 
-        /// </summary>
-        public Channel CreateChannel(CreateCommunityPayload payload)
+
+        public async Task<Channel> CreateChatAsync(CreateCommunityPayload payload)
         {
-            var request = ApiRequest.Post(_session);
-            request.AddJsonBody(JsonConvert.SerializeObject(payload));
-            var content = _restClient.Execute(request).Content;
-            return JsonConvert.DeserializeObject<Channel>(content);
+            var response = await HttpRequest.Post(_httpClient, Route, payload);
+            response.EnsureSuccessStatusCode();
+            var responseBody = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<Channel>(responseBody);
         }
     }
 }
