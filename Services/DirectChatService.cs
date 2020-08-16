@@ -28,9 +28,7 @@ namespace ServicesLibrary.Services
         public async Task<DirectChat> CreateChatAsync(CreateDirectChatPayload payload)
         {
             var response = await HttpRequest.Post(_httpClient, Route, payload);
-            response.EnsureSuccessStatusCode();
-            var responseBody = await response.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<DirectChat>(responseBody);
+            return JsonConvert.DeserializeObject<DirectChat>(response);
         }
     }
 }
