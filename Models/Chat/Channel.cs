@@ -18,6 +18,6 @@ namespace ServicesLibrary.Models.Chat
         [JsonProperty("photo_url")] public string PhotoUrl { get; set; }
         [JsonProperty("verified")] public bool Verified { get; set; }
         [JsonProperty("members_count")] public int MembersCount { get; set; }
-        [JsonProperty("updated_at")] public int UpdatedAt { get; set; }
+        [JsonProperty("updated_at")] public long UpdatedAt { get; set; }
     }
 }

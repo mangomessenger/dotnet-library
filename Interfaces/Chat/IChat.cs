@@ -10,6 +10,6 @@ namespace ServicesLibrary.Interfaces.Chat
         [JsonProperty("chat_id")] public BigInteger Id { get; set; }
         [JsonProperty("members")] public List<User> Members { get; set; }
         [JsonProperty("chat_type")] public string ChatType { get; set; }
-        [JsonProperty("updated_at")] public int UpdatedAt { get; set; }
+        [JsonProperty("updated_at")] public long UpdatedAt { get; set; }
     }
 }
